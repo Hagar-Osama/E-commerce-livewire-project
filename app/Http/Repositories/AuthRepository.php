@@ -28,7 +28,7 @@ class AuthRepository implements AuthInterface {
             'password' => Hash::make($request->password)
         ]);
         Auth::login($user);
-        return view('dashboard');
+        return redirect()->route('dashboard');
     }
 
     public function loginPage()
