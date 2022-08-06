@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddCategoryRequest extends FormRequest
+class UpdateCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,8 +31,8 @@ class AddCategoryRequest extends FormRequest
             'meta_title' => 'required',
             'meta_keyword' => 'required',
             'meta_description' => 'required',
-            'image' => 'nullable|mimes:png,jpg,svg,gif'
-
+            'image' => 'nullable|mimes:png,jpg,svg,gif',
+            'catId'=> 'required|exists:categories,id'
         ];
     }
 }

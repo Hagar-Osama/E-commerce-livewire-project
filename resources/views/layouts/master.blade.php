@@ -6,10 +6,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  @include('layouts.head')
+ @livewireStyles
 </head>
 <body>
   <div class="container-scroller">
-    
+
     <!-- partial:partials/_navbar.html -->
    @include('layouts.main-header')
     <!-- partial -->
@@ -31,6 +32,8 @@
   <!-- container-scroller -->
 
  @include('layouts.scripts')
+ @livewireScripts
+ @stack('script')
 </body>
 
 </html>

@@ -11,6 +11,6 @@ trait CategoryTraits {
 
     public function getCategoryById($catId)
     {
-        return $this->catModel::findOrFail();
+        return $this->catModel::findOrFail($catId);
     }
 }

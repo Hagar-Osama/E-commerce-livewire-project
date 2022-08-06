@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-Add Category
+Edit Category
 @endsection
 @section('css')
 @endsection
@@ -27,11 +27,13 @@ Add Category
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <form class="forms-sample" method="post" action="{{route('category.store')}}" enctype="multipart/form-data">
+                            <form class="forms-sample" method="post" action="{{route('category.update')}}" enctype="multipart/form-data">
                                 @csrf
+                                @method('PUT')
+                                <input type="hidden" name="catId" value="{{$category->id}}">
                                 <div class="form-group">
                                     <label for="exampleInputName1">Name</label>
-                                    <input type="text" name="name" value="{{old('name')}}" class="form-control" id="exampleInputName1" placeholder="Name">
+                                    <input type="text" name="name" value="{{$category->name}}" class="form-control" id="exampleInputName1" placeholder="Name">
                                 </div>
                                 @error('name')
                                 <div class="alert alert-danger">
@@ -40,7 +42,7 @@ Add Category
                                 @enderror
                                 <div class="form-group">
                                     <label for="exampleInputEmail3">Slug</label>
-                                    <input type="text" name="slug" value="{{old('slug')}}" class="form-control" id="exampleInputEmail3" placeholder="Slug">
+                                    <input type="text" name="slug" value="{{$category->slug}}" class="form-control" id="exampleInputEmail3" placeholder="Slug">
                                 </div>
                                 @error('slug')
                                 <div class="alert alert-danger">
@@ -61,7 +63,7 @@ Add Category
                                         <div class="col-sm-4">
                                             <div class="form-check">
                                                 <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="status" id="membershipRadios1" value="visible">
+                                                    <input type="radio" class="form-check-input" name="status" id="membershipRadios1" value="visible" @if($category->status == 'visible') checked @else "" @endif>
                                                     Visible
                                                 </label>
                                             </div>
@@ -69,7 +71,7 @@ Add Category
                                         <div class="col-sm-5">
                                             <div class="form-check">
                                                 <label class="form-check-label">
-                                                    <input type="radio" class="form-check-input" name="status" id="membershipRadios2" value="hidden">
+                                                    <input type="radio" class="form-check-input" name="status" id="membershipRadios2" value="hidden" @if($category->status == 'hidden') checked @else "" @endif>
                                                     Hidden
                                                 </label>
                                             </div>
@@ -82,12 +84,14 @@ Add Category
                                     <div class="input-group col-xs-12">
                                         <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Image">
                                         <span class="input-group-append">
-                                            <button class="file-upload-browse btn btn-info" type="button">
+                                            <button class="file-upload-browse btn btn-danger" type="button">
                                                 <i class="mdi mdi-upload btn-icon-prepend"></i>
                                                 Upload
                                             </button>
+
                                         </span>
                                     </div>
+                                    <img src="{{asset('storage/categories/'. $category->image)}}" width="80px" height="80" />
                                 </div>
                                 @error('image')
                                 <div class="alert alert-danger">
@@ -96,7 +100,7 @@ Add Category
                                 @enderror
                                 <div class="form-group">
                                     <label for="exampleTextarea1">Description</label>
-                                    <textarea name="description" class="form-control" id="exampleTextarea1" rows="4">{{old('description')}}</textarea>
+                                    <textarea name="description" class="form-control" id="exampleTextarea1" rows="4">{{$category->description}}</textarea>
                                 </div>
                                 @error('description')
                                 <div class="alert alert-danger">
@@ -106,7 +110,7 @@ Add Category
                                 <h3>SEO Tags</h3><br />
                                 <div class="form-group">
                                     <label for="exampleInputPassword4">Meta Title</label>
-                                    <input type="text" name="meta_title" value="{{old('meta_title')}}" class="form-control" id="exampleInputPassword4" placeholder="Meta Title">
+                                    <input type="text" name="meta_title" value="{{$category->meta_title}}" class="form-control" id="exampleInputPassword4" placeholder="Meta Title">
                                 </div>
                                 @error('meta_title')
                                 <div class="alert alert-danger">
@@ -115,7 +119,7 @@ Add Category
                                 @enderror
                                 <div class="form-group">
                                     <label for="exampleTextarea1">Meta Keyword</label>
-                                    <textarea name="meta_keyword" value="{{old('meta_keyword')}}" class="form-control" id="exampleTextarea1" rows="4"></textarea>
+                                    <textarea name="meta_keyword" class="form-control" id="exampleTextarea1" rows="4">{{$category->meta_keyword}}</textarea>
                                 </div>
                                 @error('meta_keyword')
                                 <div class="alert alert-danger">
@@ -124,16 +128,16 @@ Add Category
                                 @enderror
                                 <div class="form-group">
                                     <label for="exampleTextarea1">Meta Description</label>
-                                    <textarea name="meta_description" value="{{old('meta_description')}}" class="form-control" id="exampleTextarea1" rows="4"></textarea>
+                                    <textarea name="meta_description" class="form-control" id="exampleTextarea1" rows="4">{{$category->meta_description}}</textarea>
                                 </div>
                                 @error('meta_description')
                                 <div class="alert alert-danger">
                                     {{$message}}
                                 </div>
                                 @enderror
-                                <button type="submit" class="btn btn-primary me-2 btn-sm">
+                                <button type="submit" class="btn btn-success me-2 btn-sm">
                                     <i class="mdi mdi-file-check btn-icon-prepend"></i>
-                                    Submit
+                                    Update
                                 </button>
                                 <button class="btn btn-outline-secondary btn-icon-text">Cancel</button>
                             </form>
