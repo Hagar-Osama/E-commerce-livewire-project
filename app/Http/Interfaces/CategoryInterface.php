@@ -13,6 +13,6 @@ interface CategoryInterface {
 
     public function update($request);
 
-    public function destroy($request);
+    // public function destroy($request);
 
 }

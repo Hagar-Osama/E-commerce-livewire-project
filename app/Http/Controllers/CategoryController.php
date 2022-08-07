@@ -44,9 +44,9 @@ class CategoryController extends Controller
         return $this->categoryInterface->update($request);
     }
 
-    public function destroy(DeleteCategoryRequest $request)
-    {
-        return $this->categoryInterface->destroy($request);
-    }
+    // public function destroy(DeleteCategoryRequest $request)
+    // {
+    //     return $this->categoryInterface->destroy($request);
+    // }
 
 }

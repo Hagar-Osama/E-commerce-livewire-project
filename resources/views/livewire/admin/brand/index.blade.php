@@ -42,7 +42,7 @@ Brands
                                             @forelse($brands as $brand)
                                             <tr>
                                                 <td>
-                                                    {{$brand->id}}
+                                                    {{$loop->iteration}}
                                                 </td>
                                                 <td>
                                                     {{$brand->name}}
@@ -59,16 +59,19 @@ Brands
 
                                                     @endif
                                                 </td>
-                                                <td><a href="" class="btn-sm btn btn-outline-dark btn-fw">
+                                                <td> <button type="button" wire:click="edit({{$brand->id}})" class="btn-sm btn btn-outline-dark btn-fw" data-bs-toggle="modal" data-bs-target="#editBrand">
                                                         Edit
                                                         <i class="mdi mdi-file-check btn-icon-append"></i>
-                                                    </a>
-                                                    <button type="button" class="btn btn-outline-danger btn-fw btn-sm" data-bs-toggle="modal" data-bs-target="#">
+                                                    </button>
+
+                                                    <button type="button" wire:click="delete({{$brand->id}})" class="btn btn-outline-danger btn-fw btn-sm" data-bs-toggle="modal" data-bs-target="#deleteBrand{{$brand->id}}">
                                                         <i class="mdi mdi-alert btn-icon-prepend"></i>
                                                         Delete
                                                     </button </td>
 
                                             </tr>
+                                            @include('livewire.admin.brand.edit')
+                                            @include('livewire.admin.brand.delete')
                                             @empty
                                             <tr>
                                                 <td class="text-danger">No Brands Found</td>
@@ -89,10 +92,15 @@ Brands
             </div>
 
         </div>
+        @foreach($brands as $brand)
         @push('script')
         <script>
             window.addEventListener('close-modal', event => {
                 $('#addBrand').modal('hide');
+                $('#editBrand').modal('hide');
+                $('#deleteBrand{{$brand->id}}').modal('hide');
+
             });
-            </script>
+        </script>
         @endpush
+@endforeach

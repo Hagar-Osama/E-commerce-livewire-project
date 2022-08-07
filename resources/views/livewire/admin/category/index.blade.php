@@ -46,10 +46,10 @@ Categories
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($categories as $category)
+                                        @forelse($categories as $category)
                                         <tr>
                                             <td>
-                                                {{$category->id}}
+                                            {{$loop->iteration}}
                                             </td>
                                             <td>
                                                 {{$category->name}}
@@ -79,14 +79,18 @@ Categories
                                                     Edit
                                                     <i class="mdi mdi-file-check btn-icon-append"></i>
                                                 </a>
-                                                <button  type="button" class="btn btn-outline-danger btn-fw btn-sm" data-bs-toggle="modal" data-bs-target="#deleteCategory{{$category->id}}">
+                                                <button  type="button" wire:click="delete({{$category->id}})" class="btn btn-outline-danger btn-fw btn-sm" data-bs-toggle="modal" data-bs-target="#deleteCategory">
                                                 <i class="mdi mdi-alert btn-icon-prepend"></i>
                                                     Delete
                                                 </button </td>
 
                                         </tr>
-                                        @include('admin.category.delete')
-                                        @endforeach
+                                        @include('livewire.admin.category.delete')
+                                        @empty
+                                            <tr>
+                                                <td class="text-danger">No Categories Found</td>
+                                            </tr>
+                                            @endforelse
                                     </tbody>
                                 </table>
                                 <div>
@@ -102,5 +106,13 @@ Categories
         </div>
 
     </div>
+    @push('script')
+        <script>
+            window.addEventListener('close-modal', event => {
+                $('#deleteCategory').modal('hide');
+
+            });
+        </script>
+        @endpush
 
 

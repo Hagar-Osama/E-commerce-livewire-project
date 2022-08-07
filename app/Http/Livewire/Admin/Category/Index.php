@@ -20,24 +20,26 @@ class Index extends Component
         return view('livewire.admin.category.index', ['categories'=>$categories]);
     }
 
-    // public function deleteCategory($categoryId)
-    // {
+    public function delete($categoryId)
+    {
 
-    //    return   $categoryId;
+       $this->categoryId = $categoryId;
 
 
-    // }
+    }
 
-    // public function destroyCategory()
-    // {
-    //     $category = Category::find($this->categoryId);
-    //     $category->delete();
-    //     $path = 'storage/categories/'. $category->image;
-    //     if(File::exists($path)) {
-    //         File::delete($path);
-    //     }
-    //     session()->flash('danger', 'Category Deleted Successfully');
-    //     return redirect()->to('admin.category.index');
-    // }
+
+    public function destroy()
+    {
+        $category = Category::find($this->categoryId);
+        $category->destroy($this->categoryId);
+        $path = 'storage/categories/'. $category->image;
+        if(File::exists($path)) {
+            File::delete($path);
+        }
+        session()->flash('warning', 'Category Deleted Successfully');
+        $this->dispatchBrowserEvent('close-modal');
+        return redirect()->route('category.index');
+    }
 
 }

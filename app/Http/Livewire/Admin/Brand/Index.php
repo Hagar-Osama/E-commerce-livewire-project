@@ -11,7 +11,7 @@ class Index extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $name, $slug, $status;
+    public $name, $slug, $status, $brandId;
 
     public function render()
     {
@@ -50,6 +50,49 @@ class Index extends Component
         $this->name = null;
         $this->slug = null;
         $this->status = null;
+        $this->brandId = null;
+
+    }
+
+    public function edit($brandId)
+    {
+        $this->brandId = $brandId;
+        $brand = Brand::findorFail($brandId);
+        $this->name = $brand->name;
+        $this->slug = $brand->slug;
+        $this->status = $brand->status;
+
+    }
+
+    public function update()
+    {
+        $this->validate();
+
+        $brand = Brand::findOrFail($this->brandId);
+        $brand->update([
+            'name' => $this->name,
+            'slug' => Str::slug($this->slug),
+            'status' => $this->status
+
+        ]);
+        session()->flash('success', 'Brand Updated Succesfully');
+        $this->dispatchBrowserEvent('close-modal');
+        return redirect()->route('brand.index');
+    }
+
+    public function delete($brandId)
+    {
+        $this->brandId = $brandId;
+    }
+
+    public function destroy()
+    {
+        Brand::destroy($this->brandId);
+        session()->flash('warning', 'Brand Deleted Succesfully');
+        $this->dispatchBrowserEvent('close-modal');
+        $this->resetFields();
+        return redirect()->route('brand.index');
+
     }
 
 
