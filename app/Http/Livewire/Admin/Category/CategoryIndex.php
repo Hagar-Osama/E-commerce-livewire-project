@@ -8,7 +8,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 
-class Index extends Component
+class CategoryIndex extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
@@ -17,7 +17,7 @@ class Index extends Component
     public function render()
     {
         $categories = Category::paginate(1);
-        return view('livewire.admin.category.index', ['categories'=>$categories]);
+        return view('livewire.admin.category.index', ['categories'=>$categories])->extends('layouts.master');
     }
 
     public function delete($categoryId)

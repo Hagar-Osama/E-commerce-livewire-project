@@ -3,7 +3,9 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Livewire\Admin\Brand\Index;
+use App\Http\Livewire\Admin\Category\CategoryIndex;
 use App\Models\Brand;
 use Illuminate\Support\Facades\Route;
 
@@ -36,13 +38,24 @@ Route::group(['middleware' => ['auth']], function (){
         Route::post('/store', [CategoryController::class, 'store'])->name('store');
         Route::get('/edit/{catId}', [CategoryController::class, 'edit'])->name('edit');
         Route::put('/update', [CategoryController::class, 'update'])->name('update');
-        Route::get('/',Index::class )->name('index');
+        Route::get('/',CategoryIndex::class )->name('index');
         // Route::delete('/destroy', [CategoryController::class, 'destroy'])->name('destroy');
 
     });
     ///brands routes
     Route::group(['prefix' => 'brand'], function () {
         Route::get('/',Index::class )->name('brand.index');
+
+    });
+    //Products Routes
+    Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
+
+        Route::get('/', [ProductController::class, 'index'])->name('index');
+        Route::get('/create', [ProductController::class, 'create'])->name('create');
+        Route::post('/store', [ProductController::class, 'store'])->name('store');
+        Route::get('/edit/{catId}', [ProductController::class, 'edit'])->name('edit');
+        Route::put('/update', [ProductController::class, 'update'])->name('update');
+        Route::delete('/destroy', [ProductController::class, 'destroy'])->name('destroy');
 
     });
 

@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Interfaces;
 
-interface CategoryInterface {
+interface ProductInterface {
 
     public function index();
 
@@ -9,9 +9,12 @@ interface CategoryInterface {
 
     public function store($request);
 
-    public function edit($catId);
+    public function edit($productId);
 
     public function update($request);
+
+    public function destroy($request);
+
 
 
 }

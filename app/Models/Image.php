@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Brand extends Model
+class Image extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'slug', 'status'];
+    protected $fillable = ['image', 'imageable_id', 'imageable_type'];
 
-    public function products()
+    public function imageable()
     {
-        return $this->hasMany(Product::class);
+        return $this->morphTo();
     }
 }

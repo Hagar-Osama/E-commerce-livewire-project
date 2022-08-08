@@ -114,14 +114,5 @@ class CategoryRepository implements CategoryInterface
         }
     }
 
-//     public function destroy($request)
-//     {
-//         $category = $this->getCategoryById($request->catId);
-//         $category->delete();
-//         if($category->image) {
-//             $this->deleteFile('storage/categories/'.$category->image);
-//         }
-//         session()->flash('danger', 'Category Deleted Successfully');
-//         return redirect(route('category.index'));
-//     }
+
  }
