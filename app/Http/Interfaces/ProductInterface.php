@@ -13,6 +13,8 @@ interface ProductInterface {
 
     public function update($request);
 
+    public function deleteImage($imageId);
+
     public function destroy($request);
 
 

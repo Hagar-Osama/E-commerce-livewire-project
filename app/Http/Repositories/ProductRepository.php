@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use App\Models\Product;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class ProductRepository implements ProductInterface
 {
@@ -69,7 +70,7 @@ class ProductRepository implements ProductInterface
 
                 foreach ($images as $img) {
                     $imageName = $img->hashName();
-                    $this->uploadFile($img, 'products', $imageName);
+                    $this->uploadFile($img, 'products/'.$product->name, $imageName);
                     $this->imageModel::create([
                         'image' => $imageName,
                         'imageable_id' => $product->id,
@@ -88,52 +89,88 @@ class ProductRepository implements ProductInterface
 
     public function edit($proId)
     {
-
-        return view('admin.product.edit', compact('product'));
+        $product = $this->getProductById($proId);
+        $categories = $this->getAllCategories();
+        $brands = $this->getAllBrands();
+        return view('admin.product.edit', compact('product', 'categories', 'brands'));
     }
 
     public function update($request)
     {
         // dd($request);
 
+        DB::beginTransaction();
         try {
-            $category = $this->getCategoryById($request->catId);
+            $product = $this->getProductById($request->productId);
+            $product->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->slug),
+                'brand_id' => $request->brand_id,
+                'category_id' => $request->category_id,
+                'trendy' => $request->trendy,
+                'price' => $request->price,
+                'qty' => $request->qty,
+                'selling_price' => $request->selling_price,
+                'brief' => $request->brief,
+                'description' => $request->description,
+                'meta_title' => $request->meta_title,
+                'meta_keyword' => $request->meta_keyword,
+                'meta_description' => $request->meta_description,
+                'status' => $request->status
+            ]);
 
-            if ($request->hasFile('image')) {
-                $image = $request->file('image');
-                $imageName = $image->hashName();
-                $this->uploadFile($image, 'categories', $imageName, 'storage/categories/' . $category->image);
-                $category->update([
-                    'name' => $request->name,
-                    'slug' => Str::slug($request->slug),
-                    'description' => $request->description,
-                    'image' => isset($imageName) ? $imageName : $category->image,
-                    'meta_title' => $request->meta_title,
-                    'meta_keyword' => $request->meta_keyword,
-                    'meta_description' => $request->meta_description,
-                    'status' => $request->status
-                ]);
-                session()->flash('success', 'Category Updated Successfully');
-                return redirect(route('category.index'));
-            } else {
-                $category->update([
-                    'name' => $request->name,
-                    'slug' => Str::slug($request->slug),
-                    'description' => $request->description,
-                    'meta_title' => $request->meta_title,
-                    'meta_keyword' => $request->meta_keyword,
-                    'meta_description' => $request->meta_description,
-                    'status' => $request->status
-                ]);
+            $images = $request->file('images');
+            if ($request->hasFile('images')) {
+
+                foreach ($images as $img) {
+                    $imageName = $img->hashName();
+                    $this->uploadFile($img, 'products/'.$product->name, $imageName);
+                    $this->imageModel::create([
+                        'image' => $imageName,
+                        'imageable_id' => $product->id,
+                        'imageable_type' => Product::class
+                    ]);
+                }
             }
-            session()->flash('success', 'Category Updated Successfully');
-            return redirect(route('category.index'));
+            DB::commit();
+            session()->flash('success', 'Product Updated Successfully');
+            return redirect(route('product.index'));
         } catch (Exception $e) {
+            DB::rollBack();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
 
+    public function deleteImage($imageId)
+    {
+        $image = $this->imageModel::findOrFail($imageId);
+        $path = 'storage/products/'. $image->imageable->name. '/'. $image->image;
+        if(File::exists($path)) {
+            $this->deleteFile($path);
+        }
+        $image->delete();
+        session()->flash('success', 'Product Image Deleted Successfully');
+        return redirect(route('product.index'));
+
+    }
+
     public function destroy($request)
     {
+        $product = $this->getProductById($request->productId);
+        $product->delete();
+        $this->imageModel::destroy($product->images);
+        if($product->images) {
+            foreach($product->images as $image) {
+                $path = 'storage/products/'. $product->name. '/'. $image->image;
+                if(File::exists($path)) {
+                    $this->deleteFile($path);
+
+                }
+            }
+        }
+        session()->flash('success', 'Product Deleted Successfully');
+        return redirect(route('product.index'));
+
+
     }
 }

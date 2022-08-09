@@ -11,8 +11,8 @@ Products
                 <div class="card">
                     <div class="card-header">
                         <h2>Category
-                        <a href="{{route('product.create')}}" class="btn btn-primary float-end">Add Product</a>
-                    </h2>
+                            <a href="{{route('product.create')}}" class="btn btn-primary float-end">Add Product</a>
+                        </h2>
                     </div>
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
@@ -26,6 +26,15 @@ Products
                                                 </th>
                                                 <th>
                                                     Product Name
+                                                </th>
+                                                <th>
+                                                    Category Name
+                                                </th>
+                                                <th>
+                                                    Brand Name
+                                                </th>
+                                                <th>
+                                                    Product Image
                                                 </th>
                                                 <th>
                                                     slug Name
@@ -48,6 +57,19 @@ Products
                                                     {{$product->name}}
                                                 </td>
                                                 <td>
+                                                    {{$product->category->name}}
+                                                </td>
+                                                <td>
+                                                    {{$product->brand->name}}
+                                                </td>
+                                                <td>
+                                                    @forelse($product->images as $image)
+                                                    <img src="{{asset('storage/products/'.$product->name.'/'. $image->image)}}" width="60px" height="60px" alt="image" />
+                                                    @empty
+                                                    <div class="text-danger">No Image Available</div>
+                                                    @endforelse
+                                                </td>
+                                                <td>
                                                     {{$product->slug}}
                                                 </td>
                                                 <td>
@@ -63,16 +85,21 @@ Products
                                                         Edit
                                                         <i class="mdi mdi-file-check btn-icon-append"></i>
                                                     </a>
-
-                                                    <button type="button" wire:click="delete({{$product->id}})" class="btn btn-outline-danger btn-fw btn-sm" data-bs-toggle="modal" data-bs-target="#deleteBrand">
-                                                        <i class="mdi mdi-alert btn-icon-prepend"></i>
-                                                        Delete
-                                                    </button </td>
+                                                    <form action="{{route('product.destroy')}}" method="post" style="display:inline-block">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <input type="hidden" name="productId" value="{{$product->id}}">
+                                                        <button onclick="return confirm('Are You Sure You Want to delete this data')" class="btn btn-outline-danger btn-fw btn-sm">
+                                                            <i class="mdi mdi-alert btn-icon-prepend"></i>
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </td>
 
                                             </tr>
                                             @empty
                                             <tr>
-                                                <td class="text-danger">No products Found</td>
+                                                <td colspan="7" class="text-danger">No products Found</td>
                                             </tr>
                                             @endforelse
                                         </tbody>
@@ -96,5 +123,5 @@ Products
             });
         </script>
         @endpush
-@endforeach
-@endsection
+        @endforeach
+        @endsection

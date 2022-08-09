@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Livewire\Admin\Brand\Index;
 use App\Http\Livewire\Admin\Category\CategoryIndex;
 use App\Models\Brand;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,9 +54,11 @@ Route::group(['middleware' => ['auth']], function (){
         Route::get('/', [ProductController::class, 'index'])->name('index');
         Route::get('/create', [ProductController::class, 'create'])->name('create');
         Route::post('/store', [ProductController::class, 'store'])->name('store');
-        Route::get('/edit/{catId}', [ProductController::class, 'edit'])->name('edit');
+        Route::get('/edit/{proId}', [ProductController::class, 'edit'])->name('edit');
         Route::put('/update', [ProductController::class, 'update'])->name('update');
         Route::delete('/destroy', [ProductController::class, 'destroy'])->name('destroy');
+        Route::get('/delete/Image/{imageId}', [ProductController::class, 'deleteImage'])->name('image.delete');
+
 
     });
 
