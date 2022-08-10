@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Livewire\Admin\Brand\Index;
 use App\Http\Livewire\Admin\Category\CategoryIndex;
@@ -21,16 +22,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //Login routes
-Route::get('/loginPage',[AuthController::class, 'loginPage'])->name('loginPage');
-Route::post('/login',[AuthController::class, 'login'])->name('login');
+Route::get('/loginPage', [AuthController::class, 'loginPage'])->name('loginPage');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 ///Registeration routes
-Route::get('/registerPage',[AuthController::class, 'registerPage'])->name('registerPage');
-Route::post('/register',[AuthController::class, 'register'])->name('register');
+Route::get('/registerPage', [AuthController::class, 'registerPage'])->name('registerPage');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 
-Route::group(['middleware' => ['auth']], function (){
+Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [AdminController::class, 'index'])->name('dashboard');
-    Route::post('/logout',[AuthController::class, 'logout'])->name('logout');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     ///categories Routes
     Route::group(['prefix' => 'category', 'as' => 'category.'], function () {
 
@@ -39,14 +40,13 @@ Route::group(['middleware' => ['auth']], function (){
         Route::post('/store', [CategoryController::class, 'store'])->name('store');
         Route::get('/edit/{catId}', [CategoryController::class, 'edit'])->name('edit');
         Route::put('/update', [CategoryController::class, 'update'])->name('update');
-        Route::get('/',CategoryIndex::class )->name('index');
+        Route::get('/', CategoryIndex::class)->name('index');
         // Route::delete('/destroy', [CategoryController::class, 'destroy'])->name('destroy');
 
     });
     ///brands routes
     Route::group(['prefix' => 'brand'], function () {
-        Route::get('/',Index::class )->name('brand.index');
-
+        Route::get('/', Index::class)->name('brand.index');
     });
     //Products Routes
     Route::group(['prefix' => 'product', 'as' => 'product.'], function () {
@@ -58,10 +58,19 @@ Route::group(['middleware' => ['auth']], function (){
         Route::put('/update', [ProductController::class, 'update'])->name('update');
         Route::delete('/destroy', [ProductController::class, 'destroy'])->name('destroy');
         Route::get('/delete/Image/{imageId}', [ProductController::class, 'deleteImage'])->name('image.delete');
-
-
     });
 
+    //Colors Routes
+    Route::group(['prefix' => 'color', 'as' => 'color.'], function () {
 
+        Route::controller(ColorController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{colorId}', 'edit')->name('edit');
+            Route::put('/update', 'update')->name('update');
+            Route::delete('/delete', 'destroy')->name('destroy');
+
+        });
+    });
 });
-
