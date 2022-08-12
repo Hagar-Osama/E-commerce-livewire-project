@@ -9,9 +9,11 @@ use App\Http\Traits\CategoryTraits;
 use App\Http\Traits\FilesTraits;
 use App\Http\Traits\ProductTraits;
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\Image;
 use Illuminate\Support\Str;
 use App\Models\Product;
+use App\Models\ProductColor;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -25,12 +27,17 @@ class ProductRepository implements ProductInterface
     use BrandTraits;
     private $proModel;
     private $imageModel;
+    private $colorModel;
+    private $productColor;
 
-    public function __construct(Product $product, Category $category, Image $image)
+
+    public function __construct(Product $product, Category $category, Image $image, Color $color, ProductColor $ProductColor)
     {
         $this->proModel = $product;
         $this->catModel = $category;
         $this->imageModel = $image;
+        $this->colorModel = $color;
+        $this->productColor = $ProductColor;
     }
     public function index()
     {
@@ -42,7 +49,8 @@ class ProductRepository implements ProductInterface
     {
         $categories = $this->getAllCategories();
         $brands = $this->getAllBrands();
-        return view('admin.product.create', compact('categories', 'brands'));
+        $colors = $this->colorModel::where('status', 'visible')->get();
+        return view('admin.product.create', compact('categories', 'brands', 'colors'));
     }
 
     public function store($request)
@@ -77,6 +85,15 @@ class ProductRepository implements ProductInterface
                         'imageable_type' => Product::class
                     ]);
                 }
+            }
+            foreach($request->colors as $key => $color) {
+                $this->productColor::create([
+                    'product_id' => $product->id,
+                    'color_id' => $color,
+                    'color_qty' => $request->color_qty[$key] ?? 0 //$key here is the color_id to make sure that this color belongs to these quantites
+                                                                  // and if he inserted no quantity zero will be stored instead
+
+                ]);
             }
             DB::commit();
             session()->flash('success', 'Product Added Successfully');

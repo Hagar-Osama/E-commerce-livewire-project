@@ -42,6 +42,9 @@ Add Product
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-image" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Product Image</button>
                                     </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-productColor" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Product Color</button>
+                                    </li>
                                 </ul>
                                 <div class="tab-content" id="pills-tabContent">
                                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -230,7 +233,31 @@ Add Product
                                         </div>
                                         @enderror
                                     </div>
+                                    <div class="tab-pane fade" id="pills-productColor" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                        <div class="form-check form-check-primary mb-3">
+                                            <label class="form-check-label"></label>
+                                            <div class="row">
+                                                @forelse($colors as $color)
+                                                <div class="col-md-3">
+                                                    <div class="p-2 border">
+                                                    <input type="checkbox" name="colors[{{$color->id}}]" class="form-check-input" value="{{$color->id}}">
+                                                    {{$color->name}}<br>
+                                                    Quantity: <input type="number" name="color_qty[{{$color->id}}]" style="width: 70px;border: 1px solid;">
+                                                </div>
+                                                </div>
+
+                                                @empty
+                                                <div class="col-md-12">
+                                                    <h1> Color Found</h1>
+                                                </div>
+                                                @endforelse
+                                            </div>
+
+
+                                        </div>
+                                    </div>
                                 </div>
+                                <br>
                                 <button type="submit" class="btn btn-primary me-2 btn-sm">
                                     <i class="mdi mdi-file-check btn-icon-prepend"></i>
                                     Submit
