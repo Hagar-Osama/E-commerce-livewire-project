@@ -13,6 +13,10 @@ interface ProductInterface {
 
     public function update($request);
 
+    public function updateProductColorQty($request, $product_color_id);
+
+    public function deleteProductColorQty($product_color_id);
+
     public function deleteImage($imageId);
 
     public function destroy($request);

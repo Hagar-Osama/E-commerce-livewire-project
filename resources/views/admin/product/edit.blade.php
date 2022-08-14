@@ -44,6 +44,9 @@ Edit Product
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-image" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Product Image</button>
                                     </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-productColor" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Product Color</button>
+                                    </li>
                                 </ul>
                                 <div class="tab-content" id="pills-tabContent">
                                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -175,7 +178,8 @@ Edit Product
                                                 <div class="col-sm-4">
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                            <input type="radio" class="form-check-input" name="status" id="membershipRadios1" value="visible" {{$product->status == 'visible' ? 'checked' : 'hidden'}}>
+                                                            <input type="radio" class="form-check-input" name="status" id="membershipRadios1"
+                                                            value="visible" {{$product->status == 'visible' ? 'checked' : ''}}>
                                                             Visible
                                                         </label>
                                                     </div>
@@ -183,7 +187,8 @@ Edit Product
                                                 <div class="col-sm-5">
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                            <input type="radio" class="form-check-input" name="status" id="membershipRadios2" value="hidden">
+                                                            <input type="radio" class="form-check-input" name="status" id="membershipRadios2"
+                                                            value="hidden" {{$product->status == 'hidden' ? 'checked' : ''}}>
                                                             Hidden
                                                         </label>
                                                     </div>
@@ -245,6 +250,72 @@ Edit Product
                                         </div>
                                         @enderror
                                     </div>
+                                    <div class="tab-pane fade" id="pills-productColor" role="tabpanel" aria-labelledby="pills-contact-tab">
+                                        <div class="form-check form-check-primary mb-3">
+                                            <label class="form-check-label"></label>
+                                            <div class="row">
+                                                @forelse($colors as $color)
+                                                <div class="col-md-3">
+                                                    <div class="p-2 border">
+                                                        <input type="checkbox" name="colors[{{$color->id}}]" class="form-check-input" value="{{$color->id}}">
+                                                        {{$color->name}}<br>
+                                                        Quantity: <input type="number" name="color_qty[{{$color->id}}]" style="width: 70px;border: 1px solid;">
+                                                    </div>
+                                                </div>
+
+                                                @empty
+                                                <div class="col-md-12">
+                                                    <h1> Color Found</h1>
+                                                </div>
+                                                @endforelse
+                                            </div>
+                                            <div class="col-lg-12 grid-margin stretch-card">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="table-responsive pt-3">
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                    <tr>
+
+                                                                        <th>
+                                                                            Color Name
+                                                                        </th>
+                                                                        <th>
+                                                                            Color Quantity
+                                                                        </th>
+                                                                        <th>
+                                                                            Delete
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    @forelse($product->productColors as $productColor)
+                                                                    <tr class="productColorTr">
+                                                                        <td>
+                                                                            {{$productColor->colors->name}}
+                                                                        </td>
+                                                                        <td><input type="number" class="colorQtyInput" value="{{$productColor->color_qty}}" style="width: 60px;">
+                                                                            <button type="button" value="{{$productColor->id}}" class="productColorUpdateBtn btn-sm btn btn-warning btn-fw">
+                                                                                Update
+                                                                                <i class="mdi mdi-file-check btn-icon-append"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                        <td>
+                                                                            <button type="button" value="{{$productColor->id}}" class="productColorDeleteBtn btn btn-danger btn-fw btn-sm">
+                                                                                <i class="mdi mdi-alert btn-icon-prepend"></i>
+                                                                                Delete
+                                                                            </button>
+                                                                        </td>
+                                                                        @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
                                 </div>
                                 <button type="submit" class="btn btn-success me-2 btn-sm">
                                     <i class="mdi mdi-file-check btn-icon-prepend"></i>
@@ -272,4 +343,60 @@ Edit Product
         <!-- endinject -->
         <!-- Custom js for this page-->
         <script src="{{asset('assets/js/file-upload.js')}}"></script>
+        <script>
+$(document).ready(function () {
+
+    $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+    $(document).on('click', '.productColorUpdateBtn', function () {
+
+        var productId = "{{$product->id}}";
+        var product_color_id = $(this).val();
+        var color_qty = $(this).closest('.productColorTr').find('.colorQtyInput').val();
+        if(color_qty <=0) {
+             alert('quantity is requird');
+             return false;
+        }
+            //this is the request data that will be used in the update productColorqty method
+            var data = {
+                'productId' : productId,
+                'color_qty' : color_qty,
+            };
+            $.ajax ({
+                type : "POST",
+                url : "{{URL::to('product/update/productColor')}}/" + product_color_id,
+                data: "data",
+                dataType : "dataType",
+                success : function(response) {
+                    alert(response.message) //is the message that returned in thr repository
+                }
+
+            });
+
+
+    });
+
+    $(document).on('click', '.productColorDeleteBtn', function () {
+                var product_color_id = $(this).val();
+                var thisClick = $(this);
+                thisClick.closest('.productColorTr').remove();
+
+                $.ajax ({
+                type : "GET",
+                url : "{{URL::to('product/delete/productColor')}}/" + product_color_id,
+                success : function(response) {
+                    thisClick.closest('.productColorTr').remove();
+                    alert(response.message) //is the message that returned in thr repository
+                }
+
+            });
+            });
+
+
+});
+
+        </script>
         @endsection

@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use App\Models\Product;
 use App\Models\ProductColor;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
@@ -109,12 +110,14 @@ class ProductRepository implements ProductInterface
         $product = $this->getProductById($proId);
         $categories = $this->getAllCategories();
         $brands = $this->getAllBrands();
-        return view('admin.product.edit', compact('product', 'categories', 'brands'));
+        //now we need to show the colors that is not chosen in the add process
+        $productColor = $this->productColor::pluck('color_id')->toArray();
+        $colors = $this->colorModel::whereNotIn('id', $productColor)->get();
+        return view('admin.product.edit', compact('product', 'categories', 'brands', 'colors'));
     }
 
     public function update($request)
     {
-        // dd($request);
 
         DB::beginTransaction();
         try {
@@ -149,6 +152,15 @@ class ProductRepository implements ProductInterface
                     ]);
                 }
             }
+            foreach($request->colors as $key => $color) {
+                $this->productColor::create([
+                    'product_id' => $product->id,
+                    'color_id' => $color,
+                    'color_qty' => $request->color_qty[$key] ?? 0 //$key here is the color_id to make sure that this color belongs to these quantites
+                                                                  // and if he inserted no quantity zero will be stored instead
+
+                ]);
+            }
             DB::commit();
             session()->flash('success', 'Product Updated Successfully');
             return redirect(route('product.index'));
@@ -156,6 +168,26 @@ class ProductRepository implements ProductInterface
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
+    }
+
+    public function updateProductColorQty($request, $productId)
+    {
+        ///first we need to check that the product id is the same id in the productcolors table
+        ///there is a problem here
+        // $productColorData = ProductColor::find($request->product_color_id)->where('product_id', $productId)->first();
+        // $productColorData->update([
+        //     'color_qty' => $request->color_qty
+        // ]);
+        return response()->json(['message' => 'Product Color Quantity Updated Successfully']);
+
+    }
+
+    public function deleteProductColorQty($product_color_id)
+    {
+        $productColor = ProductColor::findOrFail($product_color_id);
+        $productColor->delete();
+        return response()->json(['message' => 'Product Color Quantity deleted Successfully']);
+
     }
 
     public function deleteImage($imageId)
@@ -190,4 +222,6 @@ class ProductRepository implements ProductInterface
 
 
     }
+
+
 }

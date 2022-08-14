@@ -45,6 +45,16 @@ class ProductController extends Controller
         return $this->productInterface->update($request);
     }
 
+    public function updateProductColorQty(Request $request, $product_color_id)
+    {
+        return $this->productInterface->updateProductColorQty($request, $product_color_id);
+    }
+
+    public function deleteProductColorQty($product_color_id)
+    {
+        return $this->productInterface->deleteProductColorQty($product_color_id);
+    }
+
     public function deleteImage($imageId)
     {
         return $this->productInterface->deleteImage($imageId);
