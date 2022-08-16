@@ -64,7 +64,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+            <a href="{{route('slider.index')}}" class="nav-link">
               <i class="mdi mdi-film menu-icon"></i>
               <span class="menu-title">Home Sliding</span>
             </a>

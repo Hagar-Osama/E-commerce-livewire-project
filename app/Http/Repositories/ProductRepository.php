@@ -170,14 +170,14 @@ class ProductRepository implements ProductInterface
         }
     }
 
-    public function updateProductColorQty($request, $productId)
+    public function updateProductColorQty($request, $product_color_id)
     {
-        ///first we need to check that the product id is the same id in the productcolors table
-        ///there is a problem here
-        // $productColorData = ProductColor::find($request->product_color_id)->where('product_id', $productId)->first();
-        // $productColorData->update([
-        //     'color_qty' => $request->color_qty
-        // ]);
+        // /first we need to check that the product id is the same id in the productcolors table
+        // /there is a problem here
+        $productColorData = ProductColor::find($product_color_id)->first();
+        $productColorData->update([
+            'color_qty' => $request->color_qty
+        ]);
         return response()->json(['message' => 'Product Color Quantity Updated Successfully']);
 
     }

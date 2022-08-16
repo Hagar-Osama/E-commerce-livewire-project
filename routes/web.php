@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SliderController;
 use App\Http\Livewire\Admin\Brand\Index;
 use App\Http\Livewire\Admin\Category\CategoryIndex;
 use App\Models\Brand;
@@ -74,6 +75,20 @@ Route::group(['middleware' => ['auth']], function () {
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
             Route::get('/edit/{colorId}', 'edit')->name('edit');
+            Route::put('/update', 'update')->name('update');
+            Route::delete('/delete', 'destroy')->name('destroy');
+
+        });
+    });
+
+    //Colors Routes
+    Route::group(['prefix' => 'slider', 'as' => 'slider.'], function () {
+
+        Route::controller(SliderController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{sliderId}', 'edit')->name('edit');
             Route::put('/update', 'update')->name('update');
             Route::delete('/delete', 'destroy')->name('destroy');
 
