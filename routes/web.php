@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\EndUser\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use App\Http\Livewire\Admin\Brand\Index;
@@ -24,6 +25,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//homepage Route
+
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/categories', [HomeController::class, 'showCategory'])->name('categories.home');
+
+
+
 //Login routes
 Route::get('/loginPage', [AuthController::class, 'loginPage'])->name('loginPage');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -33,7 +41,7 @@ Route::get('/registerPage', [AuthController::class, 'registerPage'])->name('regi
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     ///categories Routes
     Route::group(['prefix' => 'category', 'as' => 'category.'], function () {

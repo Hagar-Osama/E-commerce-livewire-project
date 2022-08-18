@@ -50,10 +50,10 @@ Sliders
                                                 {{$slider->title}}
                                             </td>
                                             <td>
-                                                {{$slider->description}}
+                                                {{mb_substr($slider->description,0,70). '...'}}
                                             </td>
                                             <td>
-                                               <img src="{{asset('storage/sliders/'.$slider->image)}}" width="100px" height="100px">
+                                               <img src="{{asset('storage/sliders/'.$slider->image)}}" style="width:70px; height: 70px;">
                                             </td>
 
                                             <td>

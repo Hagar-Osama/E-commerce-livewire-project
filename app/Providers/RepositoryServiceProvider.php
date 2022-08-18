@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Http\Interfaces\AuthInterface;
 use App\Http\Interfaces\CategoryInterface;
 use App\Http\Interfaces\ColorInterface;
+use App\Http\Interfaces\EndUser\HomeInterface;
 use App\Http\Interfaces\ProductInterface;
 use App\Http\Interfaces\SliderInterface;
 use App\Http\Repositories\AuthRepository;
 use App\Http\Repositories\CategoryRepository;
 use App\Http\Repositories\ColorRepository;
+use App\Http\Repositories\EndUser\HomeRepository;
 use App\Http\Repositories\ProductRepository;
 use App\Http\Repositories\SliderRepository;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +30,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProductInterface::class, ProductRepository::class);
         $this->app->bind(ColorInterface::class, ColorRepository::class);
         $this->app->bind(SliderInterface::class, SliderRepository::class);
+        $this->app->bind(HomeInterface::class, HomeRepository::class);
 
 
     }

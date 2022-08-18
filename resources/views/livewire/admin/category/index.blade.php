@@ -58,7 +58,7 @@ Categories
                                                 <img src="{{asset('storage/categories/'. $category->image)}}" alt="image" />
                                             </td>
                                             <td>
-                                                {{$category->description}}
+                                                {{mb_substr($category->description,0,50). '...'}}
                                             </td>
                                             <td>
                                                 {{$category->meta_title}}
