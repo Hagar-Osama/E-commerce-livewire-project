@@ -1,6 +1,6 @@
 @extends('endUser.includes.app')
 @section('title')
-category
+Categories
 @endsection
 @section('content')
 <div class="py-3 py-md-5 bg-light">
@@ -12,7 +12,7 @@ category
                 @foreach($categories as $category)
                 <div class="col-6 col-md-3">
                     <div class="category-card">
-                        <a href="">
+                        <a href="{{route('products.home', $category->slug)}}">
                             <div class="category-card-img">
                                 <img src="{{asset('storage/categories/'.$category->image)}}" class="w-100" alt="Laptop">
                             </div>

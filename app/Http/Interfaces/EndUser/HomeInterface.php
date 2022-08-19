@@ -7,4 +7,7 @@ interface HomeInterface {
 
     public function showCategory();
 
+    public function getProducts($categorySlug);
+
+
 }

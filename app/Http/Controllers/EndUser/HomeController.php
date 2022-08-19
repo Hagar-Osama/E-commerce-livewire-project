@@ -27,4 +27,10 @@ class HomeController extends Controller
     }
 
 
+    public function getProducts($categorySlug)
+    {
+        return $this->homeInterface->getProducts($categorySlug);
+    }
+
+
 }

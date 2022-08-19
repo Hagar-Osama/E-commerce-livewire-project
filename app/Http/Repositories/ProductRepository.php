@@ -79,7 +79,7 @@ class ProductRepository implements ProductInterface
 
                 foreach ($images as $img) {
                     $imageName = $img->hashName();
-                    $this->uploadFile($img, 'products/'.$product->name, $imageName);
+                    $this->uploadFile($img, 'products/' . $product->name, $imageName);
                     $this->imageModel::create([
                         'image' => $imageName,
                         'imageable_id' => $product->id,
@@ -87,12 +87,12 @@ class ProductRepository implements ProductInterface
                     ]);
                 }
             }
-            foreach($request->colors as $key => $color) {
+            foreach ($request->colors as $key => $color) {
                 $this->productColor::create([
                     'product_id' => $product->id,
                     'color_id' => $color,
                     'color_qty' => $request->color_qty[$key] ?? 0 //$key here is the color_id to make sure that this color belongs to these quantites
-                                                                  // and if he inserted no quantity zero will be stored instead
+                    // and if he inserted no quantity zero will be stored instead
 
                 ]);
             }
@@ -119,6 +119,7 @@ class ProductRepository implements ProductInterface
     public function update($request)
     {
 
+
         DB::beginTransaction();
         try {
             $product = $this->getProductById($request->productId);
@@ -144,7 +145,7 @@ class ProductRepository implements ProductInterface
 
                 foreach ($images as $img) {
                     $imageName = $img->hashName();
-                    $this->uploadFile($img, 'products/'.$product->name, $imageName);
+                    $this->uploadFile($img, 'products/' . $product->name, $imageName);
                     $this->imageModel::create([
                         'image' => $imageName,
                         'imageable_id' => $product->id,
@@ -152,12 +153,12 @@ class ProductRepository implements ProductInterface
                     ]);
                 }
             }
-            foreach($request->colors as $key => $color) {
+            foreach ((array) $request->colors as $key => $color) {
                 $this->productColor::create([
                     'product_id' => $product->id,
                     'color_id' => $color,
                     'color_qty' => $request->color_qty[$key] ?? 0 //$key here is the color_id to make sure that this color belongs to these quantites
-                                                                  // and if he inserted no quantity zero will be stored instead
+                    // and if he inserted no quantity zero will be stored instead
 
                 ]);
             }
@@ -179,7 +180,6 @@ class ProductRepository implements ProductInterface
             'color_qty' => $request->color_qty
         ]);
         return response()->json(['message' => 'Product Color Quantity Updated Successfully']);
-
     }
 
     public function deleteProductColorQty($product_color_id)
@@ -187,20 +187,18 @@ class ProductRepository implements ProductInterface
         $productColor = ProductColor::findOrFail($product_color_id);
         $productColor->delete();
         return response()->json(['message' => 'Product Color Quantity deleted Successfully']);
-
     }
 
     public function deleteImage($imageId)
     {
         $image = $this->imageModel::findOrFail($imageId);
-        $path = 'storage/products/'. $image->imageable->name. '/'. $image->image;
-        if(File::exists($path)) {
+        $path = 'storage/products/' . $image->imageable->name . '/' . $image->image;
+        if (File::exists($path)) {
             $this->deleteFile($path);
         }
         $image->delete();
         session()->flash('success', 'Product Image Deleted Successfully');
         return redirect(route('product.index'));
-
     }
 
     public function destroy($request)
@@ -208,20 +206,15 @@ class ProductRepository implements ProductInterface
         $product = $this->getProductById($request->productId);
         $product->delete();
         $this->imageModel::destroy($product->images);
-        if($product->images) {
-            foreach($product->images as $image) {
-                $path = 'storage/products/'. $product->name. '/'. $image->image;
-                if(File::exists($path)) {
+        if ($product->images) {
+            foreach ($product->images as $image) {
+                $path = 'storage/products/' . $product->name . '/' . $image->image;
+                if (File::exists($path)) {
                     $this->deleteFile($path);
-
                 }
             }
         }
         session()->flash('success', 'Product Deleted Successfully');
         return redirect(route('product.index'));
-
-
     }
-
-
 }
