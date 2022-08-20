@@ -1,4 +1,3 @@
-
 <!-- Modal -->
 <div wire:ignore.self class="modal fade" id="addBrand" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -15,6 +14,20 @@
                         <input type="text" wire:model.defer="name" value="{{old('name')}}" class="form-control" id="exampleInputName1" placeholder="Name">
                     </div>
                     @error('name')
+                    <div class="alert alert-danger">
+                        {{$message}}
+                    </div>
+                    @enderror
+                    <div class="form-group">
+                        <label for="exampleSelectGender">Category Name</label>
+                        <select wire:model="category_id" class="form-control" id="exampleSelectGender">
+                            <option value="">Select a Category</option>
+                            @foreach($categories as $category)
+                            <option value="{{$category->id}}">{{$category->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('category_id')
                     <div class="alert alert-danger">
                         {{$message}}
                     </div>
@@ -59,5 +72,3 @@
         </div>
     </div>
 </div>
-
-

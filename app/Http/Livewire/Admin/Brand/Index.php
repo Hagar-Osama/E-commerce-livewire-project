@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Brand;
 
 use App\Models\Brand;
+use App\Models\Category;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Str;
@@ -11,12 +12,13 @@ class Index extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $name, $slug, $status, $brandId;
+    public $name, $slug, $status , $category_id, $brandId;
 
     public function render()
     {
         $brands = Brand::paginate(5);
-        return view('livewire.admin.brand.index', ['brands' => $brands])->extends('layouts.master')->section('content');
+        $categories = Category::all();
+        return view('livewire.admin.brand.index', ['brands' => $brands, 'categories' => $categories])->extends('layouts.master')->section('content');
     }
 
     public function rules()
@@ -24,7 +26,8 @@ class Index extends Component
         return [
             'name' => 'required',
             'slug' => 'required',
-            'status' => 'required|in:visible,hidden'
+            'status' => 'required|in:visible,hidden',
+            // 'category_id' => 'exists:categories'
         ];
     }
 
@@ -34,7 +37,8 @@ class Index extends Component
         Brand::create([
             'name' => $this->name,
             'slug' => Str::slug($this->slug),
-            'status' => $this->status
+            'status' => $this->status,
+            'category_id' => $this->category_id,
 
         ]);
         session()->flash('success', 'Brand Added Succesfully');
@@ -51,6 +55,7 @@ class Index extends Component
         $this->slug = null;
         $this->status = null;
         $this->brandId = null;
+        $this->category_id = null;
 
     }
 
@@ -61,6 +66,7 @@ class Index extends Component
         $this->name = $brand->name;
         $this->slug = $brand->slug;
         $this->status = $brand->status;
+        $this->category_id = $brand->category_id;
 
     }
 
@@ -72,7 +78,9 @@ class Index extends Component
         $brand->update([
             'name' => $this->name,
             'slug' => Str::slug($this->slug),
-            'status' => $this->status
+            'status' => $this->status,
+            'category_id' => $this->category_id,
+
 
         ]);
         session()->flash('success', 'Brand Updated Succesfully');

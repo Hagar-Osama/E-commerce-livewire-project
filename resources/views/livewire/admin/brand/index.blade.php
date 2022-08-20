@@ -31,6 +31,9 @@ Brands
                                                     slug Name
                                                 </th>
                                                 <th>
+                                                    Category Name
+                                                </th>
+                                                <th>
                                                     Status
                                                 </th>
                                                 <th>
@@ -47,8 +50,12 @@ Brands
                                                 <td>
                                                     {{$brand->name}}
                                                 </td>
+
                                                 <td>
                                                     {{$brand->slug}}
+                                                </td>
+                                                <td>
+                                                    {{$brand->category->name}}
                                                 </td>
                                                 <td>
                                                     @if($brand->status == 'visible')

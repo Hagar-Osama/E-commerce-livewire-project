@@ -18,6 +18,20 @@
                     </div>
                     @enderror
                     <div class="form-group">
+                        <label for="exampleSelectGender">Category Name</label>
+                        <select wire:model.defer="category_id" class="form-control" id="exampleSelectGender">
+                            <option value="">Select a Category</option>
+                            @foreach($categories as $category)
+                            <option value="{{$category->id}}" {{$category->id == $brand->category->id ? 'selected': ""}}>{{$category->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('category_id')
+                    <div class="alert alert-danger">
+                        {{$message}}
+                    </div>
+                    @enderror
+                    <div class="form-group">
                         <label for="exampleInputEmail3">Slug</label>
                         <input type="text" wire:model.defer="slug" value="{{old('slug')}}" class="form-control" id="exampleInputEmail3" placeholder="Slug">
                     </div>

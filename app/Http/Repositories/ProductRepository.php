@@ -87,7 +87,7 @@ class ProductRepository implements ProductInterface
                     ]);
                 }
             }
-            foreach ($request->colors as $key => $color) {
+            foreach ((array) $request->colors as $key => $color) {
                 $this->productColor::create([
                     'product_id' => $product->id,
                     'color_id' => $color,

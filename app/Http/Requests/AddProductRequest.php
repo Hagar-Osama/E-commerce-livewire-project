@@ -38,7 +38,7 @@ class AddProductRequest extends FormRequest
             'trendy' => 'in:yes,no',
             'qty' => 'required',
             'brand_id' => 'exists:brands,id',
-            'image.*' => 'required|mimes:png,jpg,svg,gif',
+            'image.*' => 'required|mimes:png,jpg,svg,gif,webp',
             'product_id' => 'exists:products,id',
             'color_id' => 'exists:colors,id',
             'color_qty' => 'required',

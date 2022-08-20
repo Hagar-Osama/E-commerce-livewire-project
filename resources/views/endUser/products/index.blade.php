@@ -15,7 +15,7 @@
             <div class="col-md-12">
                 <h4 class="mb-4">Our Products</h4>
             </div>
-          @livewire('end-user.products.index', ['products'=> $products, 'category' => $category])
+          @livewire('end-user.products.index', ['category' => $category])
 
         </div>
     </div>

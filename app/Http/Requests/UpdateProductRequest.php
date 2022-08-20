@@ -38,7 +38,7 @@ class UpdateProductRequest extends FormRequest
             'trendy' => 'in:yes,no',
             'qty' => 'required',
             'brand_id' => 'exists:brands,id',
-            'image.*' => 'mimes:png,jpg,svg,gif',
+            'image.*' => 'mimes:png,jpg,svg,gif,webp',
             'productId' => 'required|exists:products,id',
         ];
     }
