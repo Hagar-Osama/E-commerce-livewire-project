@@ -99,6 +99,7 @@ Brands
             </div>
 
         </div>
+        <!--to close the model without refreshing the page but dont forget to add stack('script) in the master blade in order to this code to work -->
         @foreach($brands as $brand)
         @push('script')
         <script>
