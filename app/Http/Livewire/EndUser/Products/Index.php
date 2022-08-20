@@ -9,23 +9,36 @@ class Index extends Component
 {
     public $products;
     public $category;
-    public $brands =[];
-    protected $queryString = ['brands' => ['except' => '', 'as' => 'brand']];
+    public $brands = [];
+    public $priceInput;
+    protected $queryString = [
+        'brands' => ['except' => '', 'as' => 'brand'],
+        'priceInput' => ['except' => '', 'as' => 'price']
+    ];
 
 
-    public function mount( $category)
+    public function mount($category)
     {
         $this->category = $category;
     }
 
     public function render()
     {
-/////I have a problem here,filtering products by brands are not working 
+        /////I have a problem here,filtering products by brands are not working
         $this->products = Product::where('category_id', $this->category->id)
-        ->when($this->brands, function($query){
-            $query->whereIn('brand_id', $this->brands);
+            ->when($this->brands, function ($query) {
+                $query->whereIn('brand_id', $this->brands);
+            })
+            ->when($this->priceInput, function ($query) {
 
-        })->where('status', 'visible')->get();
+                $query->when($this->priceInput == 'high-to-low', function ($priceQuery) { //any data comes in the priceInput we should write the query
+                    $priceQuery->orderBy('selling_price', 'DESC');
+                })
+                ->when($this->priceInput == 'low-to-high', function ($priceQuery) {
+                    $priceQuery->orderBy('selling_price', 'ASC');
+                });
+            })
+            ->where('status', 'visible')->get();
         return view('livewire.end-user.products.index', [
             'products' => $this->products,
             'category' => $this->category
