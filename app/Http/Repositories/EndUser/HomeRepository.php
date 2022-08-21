@@ -41,7 +41,22 @@ class HomeRepository implements HomeInterface
         if ($category) {
             // $products = $this->productModel::where('slug', $categorySlug)->get();
             // //or $category->products()->get();
-            return view('endUser.products.index', compact( 'category'));
+            return view('endUser.products.index', compact('category'));
+        } else {
+            return redirect()->back();
+        }
+    }
+
+    public function viewProducts($categorySlug, $productSlug)
+    {
+        $category = $this->catModel::where('slug', $categorySlug)->first();
+        if ($category) {
+            $product = $this->productModel::where('slug', $productSlug)->first();
+            if ($product) {
+                return view('endUser.products.view', compact('category', 'product'));
+            } else {
+                return redirect()->back();
+            }
         } else {
             return redirect()->back();
         }

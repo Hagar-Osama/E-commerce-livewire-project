@@ -9,5 +9,8 @@ interface HomeInterface {
 
     public function getProducts($categorySlug);
 
+    public function viewProducts($categorySlug, $productSlug);
+
+
 
 }
