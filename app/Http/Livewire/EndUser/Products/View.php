@@ -17,7 +17,7 @@ class View extends Component
         $this->product = $product;
     }
 
-    public function selectedColor($productColorId)
+    public function selectedColor($productColorId)///here we get the product color id and then get the color qty to check the stock availability
     {
         $productColor = ProductColor::where('id', $productColorId)->first();
         $this->productColorSelected = $productColor->color_qty;

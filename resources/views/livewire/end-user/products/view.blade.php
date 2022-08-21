@@ -35,7 +35,7 @@
                             @endif
                             <div>
 
-                            <!--color product qty check-->
+                            <!--product color qty check-->
                             @if($this->productColorSelected == 'outOfStock')
                             <label class="btn-sm px-1 mt-2 text-white bg-danger">Out Of Stock</label>
                             @elseif($this->productColorSelected > 0)
