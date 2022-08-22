@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\EndUser\Products;
 
 use App\Models\ProductColor;
+use App\Models\Wishlist;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class View extends Component
@@ -17,16 +19,14 @@ class View extends Component
         $this->product = $product;
     }
 
-    public function selectedColor($productColorId)///here we get the product color id and then get the color qty to check the stock availability
+    public function selectedColor($productColorId) ///here we get the product color id and then get the color qty to check the stock availability
     {
         $productColor = ProductColor::where('id', $productColorId)->first();
         $this->productColorSelected = $productColor->color_qty;
-        if($this->productColorSelected === 0) {
+        if ($this->productColorSelected === 0) {
             $this->productColorSelected = 'outOfStock';
         }
-
     }
-
 
     public function render()
     {
@@ -34,5 +34,40 @@ class View extends Component
             'category' => $this->category,
             'product' => $this->product
         ]);
+    }
+
+    public function addToWishlist($productId)
+    {
+        if (Auth::check()) {
+            if (Wishlist::where([['product_id', $productId], ['user_id', auth()->user()->id]])->exists()) {
+                $this->dispatchBrowserEvent('message', [
+                    'text' => 'Product already Added to Wishlist',
+                    'type' => 'warning',
+                    'status' => 401
+                ]);
+                // session()->flash('message', 'Product already Added to Wishlist');
+            } else {
+                Wishlist::create([
+                    'user_id' => auth()->user()->id,
+                    'product_id' => $productId
+                ]);
+                $this->dispatchBrowserEvent('message', [
+                    'text' => 'Product  Added Successfully to Wishlist',
+                    'type' => 'success',
+                    'status' => 409
+                ]);
+
+                // session()->flash('message', 'Product Added Successfully to Wishlist');
+                // return redirect()->back();
+
+            }
+        } else {
+            $this->dispatchBrowserEvent('message', [
+                'text' => 'Please  Login First To Continue',
+                'type' => 'success',
+                'status' => 409
+            ]);
+            return false;
+        }
     }
 }
