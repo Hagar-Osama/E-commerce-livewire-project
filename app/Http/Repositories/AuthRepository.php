@@ -42,7 +42,7 @@ class AuthRepository implements AuthInterface {
         $adminData = $request->only('name', 'password');
         if(auth()->attempt($adminData)) {
             $request->session()->regenerate();
-            return redirect()->intended('/');
+            return redirect()->route('dashboard');
         }
         return back()->withErrors([
             'name' => 'The Provided Credentials Don\'t Match Our Record',

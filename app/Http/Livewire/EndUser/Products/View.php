@@ -64,8 +64,8 @@ class View extends Component
         } else {
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Please  Login First To Continue',
-                'type' => 'success',
-                'status' => 409
+                'type' => 'waring',
+                'status' => 403
             ]);
             return false;
         }

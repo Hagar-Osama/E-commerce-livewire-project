@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\EndUser\HomeController;
+use App\Http\Controllers\EndUser\WishlistController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use App\Http\Livewire\Admin\Brand\Index;
@@ -31,8 +32,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/categories', [HomeController::class, 'showCategory'])->name('categories.home');
 Route::get('/products/{categorySlug}', [HomeController::class, 'getProducts'])->name('products.home');
 Route::get('/products/{categorySlug}/{productSlug}', [HomeController::class, 'viewProducts'])->name('products.view');
-
-
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 
 //Login routes
 Route::get('/loginPage', [AuthController::class, 'loginPage'])->name('loginPage');
