@@ -30,7 +30,7 @@ class Index extends Component
             })
             ->when($this->priceInput, function ($query) {
 
-                $query->when($this->priceInput == 'high-to-low', function ($priceQuery) { //any data comes in the priceInput we should write the query
+                $query->when($this->priceInput == 'high-to-low', function ($priceQuery) { //any data comes in the priceInput we should execute the query
                     $priceQuery->orderBy('selling_price', 'DESC');
                 })
                 ->when($this->priceInput == 'low-to-high', function ($priceQuery) {

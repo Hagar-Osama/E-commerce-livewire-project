@@ -26,7 +26,7 @@
                         <li class="nav-item">
                             @if(auth()->user())
                             <a class="nav-link" href="{{route('wishlist.index')}}">
-                                <i class="fa fa-heart"></i> Wishlist (0)
+                                <i class="fa fa-heart"></i> Wishlist (<livewire:end-user.wishlist-count />)
                             </a>
                             @else
                             <a class="nav-link" href="{{route('home.index')}}">

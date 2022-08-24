@@ -12,6 +12,7 @@ class View extends Component
     public $category;
     public $product;
     public $productColorSelected;
+    public $qtyCount = 1;
 
     public function mount($category, $product)
     {
@@ -36,6 +37,17 @@ class View extends Component
         ]);
     }
 
+    public function incrementQty()
+    {
+        $this->qtyCount++;
+    }
+
+    public function decrementQty()
+    {
+        if ($this->qtyCount > 1)
+            $this->qtyCount--;
+    }
+
     public function addToWishlist($productId)
     {
         if (Auth::check()) {
@@ -51,6 +63,8 @@ class View extends Component
                     'user_id' => auth()->user()->id,
                     'product_id' => $productId
                 ]);
+                //when we create the wishlist we fire this event 'wishlistUpdate'
+                $this->emit('wishlistUpdate');
                 $this->dispatchBrowserEvent('message', [
                     'text' => 'Product  Added Successfully to Wishlist',
                     'type' => 'success',

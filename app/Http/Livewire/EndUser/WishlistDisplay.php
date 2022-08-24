@@ -17,6 +17,8 @@ class WishlistDisplay extends Component
     {
         $wishlist = Wishlist::where([['id', $wishlistId],['user_id', auth()->user()->id]]);
         $wishlist->delete();
+        //when we delete the wishlist we fire this event 'wishlistUpdate'
+        $this->emit('wishlistUpdate');
         $this->dispatchBrowserEvent('message', [
             'text' => 'Product Removed Successfully From The Wishlist',
             'type' => 'success',
