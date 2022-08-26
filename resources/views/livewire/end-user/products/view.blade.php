@@ -34,7 +34,7 @@
                             @if($product->productColors)
                             @foreach($product->productColors as $productColor)
                             <!-- <input type="radio" name="colorSelection" value="$productColor->id">{{$productColor->colors->name}} -->
-                            <label class="colorSelectionLabel text-white" style="background-color: {{$productColor->colors->code}} " wire:click="selectedColor({{$productColor->id}})">
+                            <label class="colorSelectionLabel text-dark" style="background-color: {{$productColor->colors->code}} " wire:click="selectedColor({{$productColor->id}})">
                                 {{$productColor->colors->name}}
                             </label>
                             @endforeach
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                         <div class="mt-2">
-                            <a href="" class="btn btn1"> <i class="fa fa-heart"></i> Add To Cart </a>
+                            <button type="button" wire:click="addToCart({{$product->id}})" class="btn btn1"> <i class="fa fa-heart"></i> Add To Cart </button>
                             <button type="button" wire:click="addToWishlist({{$product->id}})" class="btn btn1">
                                 <div wire:loading.remove wire:target="addToWishlist>
                                     <i class="fa fa-shopping-cart"></i> Add To Wishlist
