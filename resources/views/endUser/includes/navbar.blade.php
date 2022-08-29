@@ -20,7 +20,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link" href="#">
-                                <i class="fa fa-shopping-cart"></i> Cart (0)
+                                <i class="fa fa-shopping-cart"></i> Cart (<livewire:end-user.add-to-cart-count />)
                             </a>
                         </li>
                         <li class="nav-item">
