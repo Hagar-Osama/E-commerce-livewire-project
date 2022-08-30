@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Http\Interfaces\AuthInterface;
 use App\Http\Interfaces\CategoryInterface;
 use App\Http\Interfaces\ColorInterface;
+use App\Http\Interfaces\EndUser\CartInterface;
 use App\Http\Interfaces\EndUser\HomeInterface;
 use App\Http\Interfaces\EndUser\WishlistInterface;
 use App\Http\Interfaces\ProductInterface;
@@ -12,6 +13,7 @@ use App\Http\Interfaces\SliderInterface;
 use App\Http\Repositories\AuthRepository;
 use App\Http\Repositories\CategoryRepository;
 use App\Http\Repositories\ColorRepository;
+use App\Http\Repositories\EndUser\CartRepository;
 use App\Http\Repositories\EndUser\HomeRepository;
 use App\Http\Repositories\EndUser\WishlistRepository;
 use App\Http\Repositories\ProductRepository;
@@ -34,6 +36,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SliderInterface::class, SliderRepository::class);
         $this->app->bind(HomeInterface::class, HomeRepository::class);
         $this->app->bind(WishlistInterface::class, WishlistRepository::class);
+        $this->app->bind(CartInterface::class, CartRepository::class);
+
 
 
     }

@@ -19,7 +19,7 @@
                     <ul class="nav justify-content-end">
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{route('cart.index')}}">
                                 <i class="fa fa-shopping-cart"></i> Cart (<livewire:end-user.add-to-cart-count />)
                             </a>
                         </li>
