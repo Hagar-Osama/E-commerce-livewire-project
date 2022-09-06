@@ -9,7 +9,7 @@ use Livewire\Component;
 class AddToCartCount extends Component
 {
     public $cartCount;
-    protected $listeners = ['cartAdded' => 'checkCartCount']; //any firing in the event wishlistupdate then the change will happen to the checkwishlistcount method
+    protected $listeners = ['cartAddedOrUpdated' => 'checkCartCount']; //any firing in the event wishlistupdate then the change will happen to the checkwishlistcount method
 
 
     public function checkCartCount()

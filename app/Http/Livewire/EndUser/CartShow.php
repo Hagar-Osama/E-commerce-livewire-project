@@ -67,7 +67,7 @@ class CartShow extends Component
         if ($cart) {
             if (ProductColor::where('id', $cart->product_color_id)->exists()) {
                 $productColors = ProductColor::where('id', $cart->product_color_id)->first();
-                if ($productColors->color_qty > $cart->quantity) {
+                if ($productColors->color_qty >= $cart->quantity) {
                     $cart->decrement('quantity');
                     $this->dispatchBrowserEvent('message', [
                         'text' => 'Quantity Updated',
@@ -82,7 +82,7 @@ class CartShow extends Component
                     ]);
                 }
             } else {
-                if ($cart->products->qty > $cart->quantity) {
+                if ($cart->products->qty >= $cart->quantity) {
                     $cart->decrement('quantity');
                     $this->dispatchBrowserEvent('message', [
                         'text' => 'Quantity Updated',
@@ -105,5 +105,18 @@ class CartShow extends Component
                 'status' => 404
             ]);
         }
+    }
+
+    public function removeCart($cartId)
+    {
+        $cart = Cart::where([['id', $cartId],['user_id', auth()->user()->id]]);
+        $cart->delete();
+        //when we delete the cart we fire this event 'cartAddedOrUpdated'
+        $this->emit('cartAddedOrUpdated');
+        $this->dispatchBrowserEvent('message', [
+            'text' => 'Product Removed Successfully From The Cart',
+            'type' => 'success',
+            'status' => 409
+        ]);
     }
 }
