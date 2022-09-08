@@ -8,6 +8,8 @@ use Livewire\Component;
 
 class CartShow extends Component
 {
+    public $totalPrice = 0;
+    
     public function render()
     {
         $carts = Cart::where('user_id', auth()->user()->id)->get();

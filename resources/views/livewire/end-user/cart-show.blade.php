@@ -50,25 +50,26 @@
                             <div class="col-md-2 col-7 my-auto">
                                 <div class="quantity">
                                     <div class="input-group">
-                                        <button type="button" wire:loading.attr="disabled" wire:click="decrementQty({{$cart->id}}) class="btn btn1"><i class="fa fa-minus"></i></button>
+                                        <button type="button" wire:loading.attr="disabled" wire:click="decrementQty({{$cart->id}}) class=" btn btn1"><i class="fa fa-minus"></i></button>
                                         <input type="text" value="{{$cart->quantity}}" class="input-quantity" />
-                                        <button type="button" wire.loading.attr="disabled" wire:click="incrementQty({{$cart->id}}) class="btn btn1"><i class="fa fa-plus"></i></button>
+                                        <button type="button" wire.loading.attr="disabled" wire:click="incrementQty({{$cart->id}}) class=" btn btn1"><i class="fa fa-plus"></i></button>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-1 my-auto">
                                 <label class="price">${{$cart->products->price * $cart->quantity}} </label>
+                                @php $totalPrice += $cart->products->price * $cart->quantity @endphp
                             </div>
                             <div class="col-md-2 col-5 my-auto">
                                 <div class="remove">
-                                <button type="button" wire:loading.attr="disabled" wire:click="removeCart({{$cart->id}})" class="btn btn-danger btn-sm">
-                                            <div wire:loading.remove wire:target="removeCart({{$cart->id}})">
+                                    <button type="button" wire:loading.attr="disabled" wire:click="removeCart({{$cart->id}})" class="btn btn-danger btn-sm">
+                                        <div wire:loading.remove wire:target="removeCart({{$cart->id}})">
                                             <i class="fa fa-trash"></i> Remove
-                                            </div>
-                                            <div wire:loading wire:target="removeCart({{$cart->id}})">
+                                        </div>
+                                        <div wire:loading wire:target="removeCart({{$cart->id}})">
                                             <i class="fa fa-trash"></i> Removing
-                                            </div>
-                                        </button>
+                                        </div>
+                                    </button>
                                 </div>
                             </div>
                             @empty
@@ -78,8 +79,22 @@
                             @endforelse
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 my-md-auto mt-3">
+                        <h5>Get the best deals & offers <a href="{{url('products/'.$cart->products->category->slug . '/'.$cart->products->slug)}}">Shop Now</a></h5>
 
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <div class="shadow-sm bg-white p-3">
+                            <h4> Total :
+                                <span class="float-end">${{$totalPrice}}</span>
+                            </h4>
+                            <hr>
+                            <a href="" class="btn btn-warning w-100">CheckOut</a>
+                        </div>
 
+                    </div>
                 </div>
             </div>
         </div>
