@@ -38,6 +38,11 @@ class HomeController extends Controller
 
     }
 
+    public function thankYou()
+    {
+        return $this->homeInterface->thankYou();
+    }
+
 
 
 }

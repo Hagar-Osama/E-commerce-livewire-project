@@ -11,6 +11,9 @@ interface HomeInterface {
 
     public function viewProducts($categorySlug, $productSlug);
 
+    public function thankYou();
+
+
 
 
 }

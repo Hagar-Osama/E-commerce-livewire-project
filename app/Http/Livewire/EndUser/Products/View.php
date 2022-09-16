@@ -120,7 +120,7 @@ class View extends Component
                                         'product_color_id' => $this->productColorId,
                                         'quantity' => $this->qtyCount
                                     ]);
-                                    $this->emit('cartAdded');
+                                    $this->emit('cartAddedOrUpdated');
                                     $this->dispatchBrowserEvent('message', [
                                         'text' => 'Product  Added Successfully to Cart',
                                         'type' => 'success',
@@ -166,7 +166,7 @@ class View extends Component
                                     'product_id' => $productId,
                                     'quantity' => $this->qtyCount
                                 ]);
-                                $this->emit('cartAdded');
+                                $this->emit('cartAddedOrUpdated');
                                 $this->dispatchBrowserEvent('message', [
                                     'text' => 'Product  Added Successfully to Cart',
                                     'type' => 'success',

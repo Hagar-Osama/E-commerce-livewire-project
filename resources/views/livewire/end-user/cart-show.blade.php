@@ -28,6 +28,7 @@
 
                     <div class="cart-item">
                         <div class="row">
+                            @isset($carts)
                             @forelse($carts as $cart)
                             <div class="col-md-6 my-auto">
                                 <a href="{{route('products.view',[$cart->products->category->slug,$cart->products->slug])}}">
@@ -58,7 +59,7 @@
                             </div>
                             <div class="col-md-1 my-auto">
                                 <label class="price">${{$cart->products->price * $cart->quantity}} </label>
-                                @php $totalPrice += $cart->products->price * $cart->quantity @endphp
+                                @php $totalPrice += $cart->products->selling_price * $cart->quantity @endphp
                             </div>
                             <div class="col-md-2 col-5 my-auto">
                                 <div class="remove">
@@ -77,13 +78,15 @@
                                 <h4>No Product Added To Cart</h4>
                             </div>
                             @endforelse
+                            @endisset
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-8 my-md-auto mt-3">
+                        @if($carts->count() != 0)
                         <h5>Get the best deals & offers <a href="{{url('products/'.$cart->products->category->slug . '/'.$cart->products->slug)}}">Shop Now</a></h5>
-
+                        @endif
                     </div>
                     <div class="col-md-4 mt-3">
                         <div class="shadow-sm bg-white p-3">
@@ -91,7 +94,7 @@
                                 <span class="float-end">${{$totalPrice}}</span>
                             </h4>
                             <hr>
-                            <a href="" class="btn btn-warning w-100">CheckOut</a>
+                            <a href="{{route('checkout.index')}}" class="btn btn-warning w-100">CheckOut</a>
                         </div>
 
                     </div>

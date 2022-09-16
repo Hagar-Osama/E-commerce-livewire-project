@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\EndUser\CartController;
+use App\Http\Controllers\EndUser\CheckoutController;
 use App\Http\Controllers\EndUser\HomeController;
 use App\Http\Controllers\EndUser\WishlistController;
 use App\Http\Controllers\ProductController;
@@ -37,6 +38,10 @@ Route::get('/products/{categorySlug}/{productSlug}', [HomeController::class, 'vi
 Route::group(['middleware' => ['auth']], function () {
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::get('/thankyou', [HomeController::class, 'thankYou']);
+
+
 
 });
 

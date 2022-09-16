@@ -61,4 +61,10 @@ class HomeRepository implements HomeInterface
             return redirect()->back();
         }
     }
+
+    public function thankYou()
+    {
+        return view('EndUser.thank_you');
+    }
+
 }
