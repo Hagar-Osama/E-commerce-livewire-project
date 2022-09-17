@@ -7,6 +7,9 @@ Thank You For Shopping
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center">
+                @if(session('message'))
+                <div class="alert alert-success">{{session('message')}}</div>
+                @endif
                 <div class="p-4 shadow bg-white">
                 <h2>Your Logo</h2>
                 <h4>Thank You For Shopping With Us!</h4>

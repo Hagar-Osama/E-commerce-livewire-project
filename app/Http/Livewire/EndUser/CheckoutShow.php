@@ -30,33 +30,40 @@ class CheckoutShow extends Component
     public function placeOrder()
     {
         DB::beginTransaction();
-            $this->validate();
-            $order =  Order::create([
-                'user_id' => auth()->user()->id,
-                'tracking_number' => 'amazon-' .Str::random(10),
-                'fullname' => auth()->user()->name,
-                'email' => auth()->user()->email,
-                'phone' => $this->phone,
-                'address' => $this->address,
-                'pincode' => $this->pincode,
-                'status_message' => 'in progress',
-                'payment_method' => $this->payment_mode,
-                'payment_id' => $this->payment_id,
+        $this->validate();
+        $order =  Order::create([
+            'user_id' => auth()->user()->id,
+            'tracking_number' => 'amazon-' . Str::random(10),
+            'fullname' => auth()->user()->name,
+            'email' => auth()->user()->email,
+            'phone' => $this->phone,
+            'address' => $this->address,
+            'pincode' => $this->pincode,
+            'status_message' => 'in progress',
+            'payment_method' => $this->payment_mode,
+            'payment_id' => $this->payment_id,
+
+        ]);
+
+        foreach ($this->cart as $cartItem) {
+            OrderDetail::create([
+                'order_id' => $order->id,
+                'product_id' => $cartItem->product_id,
+                'product_color_id' => $cartItem->product_color_id,
+                'price' => $cartItem->products->selling_price,
+                'quantity' => $cartItem->quantity,
 
             ]);
-
-            foreach ($this->cart as $cartItem) {
-                OrderDetail::create([
-                    'order_id' => $order->id,
-                    'product_id' => $cartItem->product_id,
-                    'product_color_id' => $cartItem->product_color_id,
-                    'price' => $cartItem->products->selling_price,
-                    'quantity' => $cartItem->quantity,
-
-                ]);
+            if ($cartItem->product_color_id != NULL) {
+                $cartItem->productColors()->where('id', $cartItem->product_color_id)->decrement('color_qty', $cartItem->quantity);
+                $cartItem->products()->where('id', $cartItem->product_id)->decrement('qty', $cartItem->quantity);
+            } else {
+                $cartItem->products()->where('id', $cartItem->product_id)->decrement('qty', $cartItem->quantity);
             }
-            DB::commit();
-            return $order;
+        }
+
+        DB::commit();
+        return $order;
     }
 
 
@@ -67,6 +74,7 @@ class CheckoutShow extends Component
         if ($placeOrder) {
             Cart::where('user_id', auth()->user()->id)->delete();
             $this->emit('cartAddedOrUpdated');
+            session()->flash('message', 'Order Placed Successfully');
             $this->dispatchBrowserEvent('message', [
                 'text' => 'Order Placed Successfully',
                 'type' => 'success',
@@ -93,7 +101,7 @@ class CheckoutShow extends Component
 
     public function calculatingCartProducts()
     {
-
+        $this->productTotalPrice = 0;
         $this->cart = Cart::where('user_id', auth()->user()->id)->get();
         foreach ($this->cart as $cartItem) {
             $this->productTotalPrice += $cartItem->products->selling_price * $cartItem->quantity;
