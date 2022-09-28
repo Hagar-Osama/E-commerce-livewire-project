@@ -119,20 +119,20 @@
         onClick: function() {
 
             // Show a validation error if the checkbox is not checked
-            if (!document.getElementById('#fullname').value ||
-                !document.getElementById('#phone').value ||
-                !document.getElementById('#email').value ||
-                !document.getElementById('#pincode').value ||
-                !document.getElementById('#address').value) {
+            if (!document.getElementById('fullname').value ||
+                !document.getElementById('phone').value ||
+                !document.getElementById('email').value ||
+                !document.getElementById('pincode').value ||
+                !document.getElementById('address').value) {
 
                 Livewire.emit('validationAll');
                 return false; //now we will go to the controller to write thr listner and the function
             } else {
-                $this.set('fullname', document.getElementById('#fullname').value);
-                $this.set('phone', document.getElementById('#phone').value);
-                $this.set('email', document.getElementById('#email').value);
-                $this.set('pincode', document.getElementById('#pincode').value);
-                $this.set('address', document.getElementById('#address').value);
+                @this.set('fullname', document.getElementById('fullname').value);
+                @this.set('phone', document.getElementById('phone').value);
+                @this.set('email', document.getElementById('email').value);
+                @this.set('pincode', document.getElementById('pincode').value);
+                @this.set('address', document.getElementById('address').value);
 
             }
         },
