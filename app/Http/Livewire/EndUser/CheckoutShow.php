@@ -15,6 +15,34 @@ class CheckoutShow extends Component
     public $cart;
     public $productTotalPrice = 0;
     public $fullname, $email, $phone, $pincode, $address, $payment_mode = null, $payment_id = null;
+    protected $listeners = ['validationAll', 'transactionEmit' => 'paidOnlineOrder'];
+
+    public function paidOnlineOrder($transactionId)
+    {
+        $this->payment_id = $transactionId;
+        $this->payment_mode = 'Paid By Paypal';
+        $placeOrder =  $this->placeOrder();
+        if ($placeOrder) {
+            Cart::where('user_id', auth()->user()->id)->delete();
+            $this->emit('cartAddedOrUpdated');
+            session()->flash('message', 'Order Placed Successfully');
+            $this->dispatchBrowserEvent('message', [
+                'text' => 'Order Placed Successfully',
+                'type' => 'success',
+                'status' => 200
+            ]);
+            return redirect()->to('/thankyou');
+        } else {
+            DB::rollBack();
+            $this->dispatchBrowserEvent('message', [
+                'text' => 'something went wrong',
+                'type' => 'error',
+                'status' => 500
+            ]);
+        }
+    }
+
+
 
     public function rules()
     {
@@ -25,6 +53,11 @@ class CheckoutShow extends Component
             'pincode' => 'required',
             'address' => 'required|max:120'
         ];
+    }
+
+    public function validationAll()
+    {
+        $this->validate();
     }
 
     public function placeOrder()

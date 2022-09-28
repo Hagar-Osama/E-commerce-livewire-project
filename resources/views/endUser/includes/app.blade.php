@@ -11,5 +11,6 @@
         @yield('content')
         @include('endUser.includes.footer')
         @livewireScripts
+        @stack('scripts')
     </body>
 </html>
