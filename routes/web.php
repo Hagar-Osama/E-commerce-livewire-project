@@ -7,6 +7,7 @@ use App\Http\Controllers\ColorController;
 use App\Http\Controllers\EndUser\CartController;
 use App\Http\Controllers\EndUser\CheckoutController;
 use App\Http\Controllers\EndUser\HomeController;
+use App\Http\Controllers\EndUser\OrderController;
 use App\Http\Controllers\EndUser\WishlistController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
@@ -40,6 +41,9 @@ Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.in
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::get('/thankyou', [HomeController::class, 'thankYou']);
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show');
+
 
 
 
