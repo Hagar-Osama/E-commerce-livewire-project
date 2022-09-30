@@ -7,9 +7,9 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+            <a class="nav-link" href="{{route('order.index')}}">
               <i class="mdi mdi-cash-usd menu-icon"></i>
-              <span class="menu-title">Sales</span>
+              <span class="menu-title">Orders</span>
             </a>
           </li>
           <li class="nav-item">

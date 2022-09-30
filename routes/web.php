@@ -9,14 +9,11 @@ use App\Http\Controllers\EndUser\CheckoutController;
 use App\Http\Controllers\EndUser\HomeController;
 use App\Http\Controllers\EndUser\OrderController;
 use App\Http\Controllers\EndUser\WishlistController;
+use App\Http\Controllers\OrderController as ControllersOrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use App\Http\Livewire\Admin\Brand\Index;
 use App\Http\Livewire\Admin\Category\CategoryIndex;
-use App\Models\Brand;
-use App\Models\Product;
-use App\Models\ProductColor;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,7 +66,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{catId}', [CategoryController::class, 'edit'])->name('edit');
         Route::put('/update', [CategoryController::class, 'update'])->name('update');
         Route::get('/', CategoryIndex::class)->name('index');
-        // Route::delete('/destroy', [CategoryController::class, 'destroy'])->name('destroy');
 
     });
     ///brands routes
@@ -119,5 +115,15 @@ Route::group(['middleware' => ['auth']], function () {
 
         });
     });
+
+        //orders Routes
+        Route::group(['prefix' => 'order', 'as' => 'order.'], function () {
+
+            Route::controller(ControllersOrderController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('/{orderId}', 'show')->name('show');
+
+            });
+        });
 
 });
