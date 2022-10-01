@@ -26,4 +26,25 @@ class OrderController extends Controller
 
 
     }
+
+    public function updateStatus(Request $request, $orderId)
+    {
+        return $this->ordersInterface->updateStatus($request, $orderId);
+
+
+    }
+
+    public function showInvoice($orderId)
+    {
+        return $this->ordersInterface->showInvoice($orderId);
+
+    }
+
+    public function downloadInvoice($orderId)
+    {
+        return $this->ordersInterface->downloadInvoice($orderId);
+
+    }
+
+
 }

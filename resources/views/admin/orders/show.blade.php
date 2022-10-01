@@ -7,8 +7,15 @@ Order Details
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+                @if(session('message'))
+                <div class="alert alert-success">{{session('message')}}</div>
+                @endif
+                <div class="card-body">
                     <h4 class="text-primary"><i class="fa fa-shopping-cart text-dark"></i> My Order Details
-                        <a href="{{route('order.index')}}" class="btn btn-danger btn-small float-end">Back</a>
+                        <a href="{{route('order.index')}}" class="btn btn-danger btn-sm float-end mx-1">Back</a>
+                        <a href="{{route('order.showInvoice', $order->id)}}" target="_blank" class="btn btn-primary btn-sm float-end mx-1">View Invoice</a>
+                        <a href="{{route('order.downloadInvoice', $order->id)}}" class="btn btn-warning btn-sm float-end mx-1">Download Invoice</a>
+
                     </h4>
                     <hr>
                     <div class="row">
@@ -57,21 +64,21 @@ Order Details
                                 @endphp
                                 @foreach($order->orderDetails as $orderDetail)
                                 <tr>
-                                    <th width="100">{{$loop->iteration}}</th>
-                                    <td width="100"> @foreach($orderDetail->products->images as $productImage)
+                                    <th width="10%">{{$loop->iteration}}</th>
+                                    <td width="10%"> @foreach($orderDetail->products->images as $productImage)
                                         <img src="{{asset('storage/products/'.$orderDetail->products->name.'/'.$productImage->image)}}" style="width: 50px; height: 50px" alt="{{$orderDetail->products->name}}">
                                         @endforeach
                                     </td>
-                                    <td width="100"> {{$orderDetail->products->name}}
+                                    <td width="10%"> {{$orderDetail->products->name}}
                                         @if($orderDetail->productColors)
                                         @if($orderDetail->productColors->colors)
                                         <span>- Color : {{$orderDetail->productColors->colors->name}}</span>
                                         @endif
                                         @endif
                                     </td>
-                                    <td width="100">${{$orderDetail->price}}</td>
-                                    <td width="100">{{$orderDetail->quantity}}</td>
-                                    <td width="100" class="fw-bold">${{$orderDetail->quantity * $orderDetail->price }}</td>
+                                    <td width="10%">${{$orderDetail->price}}</td>
+                                    <td width="10%">{{$orderDetail->quantity}}</td>
+                                    <td width="10%" class="fw-bold">${{$orderDetail->quantity * $orderDetail->price }}</td>
                                     @php
                                     $totalPrice += $orderDetail->quantity * $orderDetail->price;
                                     @endphp
@@ -85,8 +92,40 @@ Order Details
                             </tbody>
                         </table>
                     </div>
+                </div>
+                <div class="card border mt-3">
+                    <div class="card-body">
+                        <h4>Order Process (Order Status Updates)</h4>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <form action="{{route('order.status.update', $order->id)}}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <label>Update Order Status</label>
+                                    <div class="input-group">
+                                        <select name="status" class="form-select" id="exampleSelectGender">
+                                            <option value="none" selected disabled hidden>Choose a status</option>
+                                            <option value="">All</option>
+                                            <option value="in progress" @if(Request::get('status')=='in progress' ) selected @else "" @endif>In Progress</option>
+                                            <option value="completed" @if(Request::get('status')=='completed' ) selected @else "" @endif>Completed</option>
+                                            <option value="pending" @if(Request::get('status')=='pending' ) selected @else "" @endif>Pending</option>
+                                            <option value="out for delivery" @if(Request::get('status')=='out for delivery' ) selected @else "" @endif>Out For Delivery</option>
+                                            <option value="canceled" @if(Request::get('status')=='canceled' ) selected @else "" @endif>Canceled</option>
+                                        </select>
 
-
+                                        <button type="submit" class="btn btn-primary text-white">Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-7">
+                                <br />
+                                <h4 class="mt-3"> Current Order Status: <span class="test-uppercase">{{$order->status_message}}</span></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -122,6 +122,12 @@ Route::group(['middleware' => ['auth']], function () {
             Route::controller(ControllersOrderController::class)->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::get('/{orderId}', 'show')->name('show');
+                Route::put('/{orderId}', 'updateStatus')->name('status.update');
+                Route::get('/{orderId}/view', 'showInvoice')->name('showInvoice');
+                Route::get('/{orderId}/download', 'downloadInvoice')->name('downloadInvoice');
+
+
+
 
             });
         });
