@@ -32,6 +32,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/categories', [HomeController::class, 'showCategory'])->name('categories.home');
 Route::get('/products/{categorySlug}', [HomeController::class, 'getProducts'])->name('products.home');
 Route::get('/products/{categorySlug}/{productSlug}', [HomeController::class, 'viewProducts'])->name('products.view');
+Route::get('/new-arrival', [HomeController::class, 'showNewArrivals'])->name('newArrivals.index');
+Route::get('/featured/products', [HomeController::class, 'showFeaturedProducts'])->name('featuredProducts.index');
 
 Route::group(['middleware' => ['auth']], function () {
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');

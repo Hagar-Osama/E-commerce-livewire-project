@@ -18,6 +18,7 @@ class Product extends Model
         'brand_id',
         'status',
         'trendy',
+        'featured',
         'qty',
         'price',
         'selling_price',

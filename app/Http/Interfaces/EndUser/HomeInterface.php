@@ -13,6 +13,12 @@ interface HomeInterface {
 
     public function thankYou();
 
+    public function showNewArrivals();
+
+    public function showFeaturedProducts();
+
+
+
 
 
 

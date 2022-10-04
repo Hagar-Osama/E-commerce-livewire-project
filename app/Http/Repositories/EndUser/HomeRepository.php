@@ -36,6 +36,21 @@ class HomeRepository implements HomeInterface
         return view('endUser.categories', compact('categories'));
     }
 
+    public function showNewArrivals()
+    {
+        $newArrivals = $this->productModel::latest()->take(3)->get();
+        return view('endUser.new-arrivals', compact('newArrivals'));
+
+    }
+
+    public function showFeaturedProducts()
+    {
+        $featuredProducts = $this->productModel::where('featured', 'yes')->get();
+        return view('endUser.featured-products', compact('featuredProducts'));
+
+    }
+
+
     public function getProducts($categorySlug)
     {
         $category = $this->catModel::where('slug', $categorySlug)->first();

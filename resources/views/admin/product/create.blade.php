@@ -212,6 +212,27 @@ Add Product
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Featured</label>
+                                                <div class="col-sm-4">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" class="form-check-input" name="featured" id="membershipRadios1" value="yes">
+                                                            Yes
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" class="form-check-input" name="featured" id="membershipRadios2" value="no">
+                                                            No
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="tab-pane fade" id="pills-image" role="tabpanel" aria-labelledby="pills-contact-tab">
                                         <div class="form-group">
@@ -240,10 +261,10 @@ Add Product
                                                 @forelse($colors as $color)
                                                 <div class="col-md-3">
                                                     <div class="p-2 border">
-                                                    <input type="checkbox" name="colors[{{$color->id}}]" class="form-check-input" value="{{$color->id}}">
-                                                    {{$color->name}}<br>
-                                                    Quantity: <input type="number" name="color_qty[{{$color->id}}]" style="width: 70px;border: 1px solid;">
-                                                </div>
+                                                        <input type="checkbox" name="colors[{{$color->id}}]" class="form-check-input" value="{{$color->id}}">
+                                                        {{$color->name}}<br>
+                                                        Quantity: <input type="number" name="color_qty[{{$color->id}}]" style="width: 70px;border: 1px solid;">
+                                                    </div>
                                                 </div>
 
                                                 @empty

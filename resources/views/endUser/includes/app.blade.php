@@ -10,6 +10,7 @@
         @include('endUser.includes.navbar')
         @yield('content')
         @include('endUser.includes.footer')
+        @include('endUser.includes.scripts')
         @livewireScripts
         @stack('scripts')
     </body>

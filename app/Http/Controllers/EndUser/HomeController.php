@@ -44,5 +44,18 @@ class HomeController extends Controller
     }
 
 
+    public function showNewArrivals()
+    {
+        return $this->homeInterface->showNewArrivals();
+    }
+
+    public function showFeaturedProducts()
+    {
+        return $this->homeInterface->showFeaturedProducts();
+
+    }
+
+
+
 
 }

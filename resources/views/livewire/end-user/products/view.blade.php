@@ -10,12 +10,29 @@
             </div>
             <div class="row">
                 <div class="col-md-5 mt-3">
-                    @foreach($product->images as $productImage)
-                    <div class="bg-white border">
-                        <img src="{{asset('storage/products/'.$product->name. '/'. $productImage->image)}}" class="w-100" alt="Suit">
+                    <div class="bg-white border" wire:ignore>
+                        <div class="exzoom" id="exzoom">
+
+                            <div class="exzoom_img_box">
+                                <ul class='exzoom_img_ul'>
+                                    @foreach($product->images as $productImage)
+                                    <li><img src="{{asset('storage/products/'.$product->name. '/'. $productImage->image)}}" /></li>
+                                    @endforeach
+
+                                </ul>
+                            </div>
+                            <!-- <a href="https://www.jqueryscript.net/tags.php?/Thumbnail/">Thumbnail</a> Nav-->
+                            <div class="exzoom_nav"></div>
+                            <!-- Nav Buttons -->
+                            <p class="exzoom_btn">
+                                <a href="javascript:void(0);" class="exzoom_prev_btn">
+                                    < </a>
+                                        <a href="javascript:void(0);" class="exzoom_next_btn"> > </a>
+                            </p>
+                        </div>
                     </div>
-                    @endforeach
                 </div>
+
                 <div class="col-md-7 mt-3">
                     <div class="product-view">
                         <h4 class="product-name">
@@ -69,7 +86,7 @@
                             <button type="button" wire:click="addToCart({{$product->id}})" class="btn btn1"> <i class="fa fa-heart"></i> Add To Cart </button>
                             <button type="button" wire:click="addToWishlist({{$product->id}})" class="btn btn1">
                                 <div wire:loading.remove wire:target="addToWishlist>
-                                    <i class="fa fa-shopping-cart"></i> Add To Wishlist
+                                    <i class=" fa fa-shopping-cart"></i> Add To Wishlist
                                 </div>
                                 <div wire:loading wire:target="addToWishlist">
                                     Processing Adding...
@@ -103,3 +120,27 @@
         </div>
     </div>
 </div>
+@push('scripts')
+<script>
+    $(function() {
+
+        $("#exzoom").exzoom({
+
+            // thumbnail nav options
+            "navWidth": 60,
+            "navHeight": 60,
+            "navItemNum": 5,
+            "navItemMargin": 7,
+            "navBorder": 1,
+
+            // autoplay
+            "autoPlay": false,
+
+            // autoplay interval in milliseconds
+            "autoPlayTimeout": 2000
+
+        });
+
+    });
+</script>
+@endpush

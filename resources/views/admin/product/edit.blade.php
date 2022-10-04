@@ -178,8 +178,7 @@ Edit Product
                                                 <div class="col-sm-4">
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                            <input type="radio" class="form-check-input" name="status" id="membershipRadios1"
-                                                            value="visible" {{$product->status == 'visible' ? 'checked' : ''}}>
+                                                            <input type="radio" class="form-check-input" name="status" id="membershipRadios1" value="visible" {{$product->status == 'visible' ? 'checked' : ''}}>
                                                             Visible
                                                         </label>
                                                     </div>
@@ -187,8 +186,7 @@ Edit Product
                                                 <div class="col-sm-5">
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                            <input type="radio" class="form-check-input" name="status" id="membershipRadios2"
-                                                            value="hidden" {{$product->status == 'hidden' ? 'checked' : ''}}>
+                                                            <input type="radio" class="form-check-input" name="status" id="membershipRadios2" value="hidden" {{$product->status == 'hidden' ? 'checked' : ''}}>
                                                             Hidden
                                                         </label>
                                                     </div>
@@ -201,7 +199,7 @@ Edit Product
                                                 <div class="col-sm-4">
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                            <input type="radio" class="form-check-input" name="trendy" id="membershipRadios1" value="yes" {{$product->trendy == 'yes' ? 'checked' : 'no'}}>
+                                                            <input type="radio" class="form-check-input" name="trendy" id="membershipRadios1" value="yes" {{$product->trendy == 'yes' ? 'checked' : ''}}>
                                                             Yes
                                                         </label>
                                                     </div>
@@ -209,7 +207,28 @@ Edit Product
                                                 <div class="col-sm-5">
                                                     <div class="form-check">
                                                         <label class="form-check-label">
-                                                            <input type="radio" class="form-check-input" name="trendy" id="membershipRadios2" value="no">
+                                                            <input type="radio" class="form-check-input" name="trendy" id="membershipRadios2" value="no" {{$product->trendy == 'no' ? 'checked' : ''}}>
+                                                            No
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label class="col-sm-3 col-form-label">Featured</label>
+                                                <div class="col-sm-4">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" class="form-check-input" name="featured" id="membershipRadios1" value="yes" {{$product->featured == 'yes' ? 'checked' : ''}}>
+                                                            Yes
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-5">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input type="radio" class="form-check-input" name="featured" id="membershipRadios2" value="no"{{$product->featured == 'no' ? 'checked' : ''}}>
                                                             No
                                                         </label>
                                                     </div>
@@ -344,59 +363,58 @@ Edit Product
         <!-- Custom js for this page-->
         <script src="{{asset('assets/js/file-upload.js')}}"></script>
         <script>
-$(document).ready(function () {
+            $(document).ready(function() {
 
-    $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-    $(document).on('click', '.productColorUpdateBtn', function () {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $(document).on('click', '.productColorUpdateBtn', function() {
 
-        var productId = "{{$product->id}}";
-        var product_color_id = $(this).val();
-        var color_qty = $(this).closest('.productColorTr').find('.colorQtyInput').val();
-        if(color_qty <=0) {
-             alert('quantity is requird');
-             return false;
-        }
-            //this is the request data that will be used in the update productColorqty method
-            var data = {
-                'productId' : productId,
-                'color_qty' : color_qty,
-            };
-            $.ajax ({
-                type : "POST",
-                url : "{{URL::to('product/update/productColor')}}/" + product_color_id,
-                data: "data",
-                dataType : "dataType",
-                success : function(response) {
-                    alert(response.message) //is the message that returned in thr repository
-                }
+                    var productId = "{{$product->id}}";
+                    var product_color_id = $(this).val();
+                    var color_qty = $(this).closest('.productColorTr').find('.colorQtyInput').val();
+                    if (color_qty <= 0) {
+                        alert('quantity is requird');
+                        return false;
+                    }
+                    //this is the request data that will be used in the update productColorqty method
+                    var data = {
+                        'productId': productId,
+                        'color_qty': color_qty,
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "{{URL::to('product/update/productColor')}}/" + product_color_id,
+                        data: "data",
+                        dataType: "dataType",
+                        success: function(response) {
+                            alert(response.message) //is the message that returned in thr repository
+                        }
 
-            });
+                    });
 
 
-    });
+                });
 
-    $(document).on('click', '.productColorDeleteBtn', function () {
-                var product_color_id = $(this).val();
-                var thisClick = $(this);
-                thisClick.closest('.productColorTr').remove();
-
-                $.ajax ({
-                type : "GET",
-                url : "{{URL::to('product/delete/productColor')}}/" + product_color_id,
-                success : function(response) {
+                $(document).on('click', '.productColorDeleteBtn', function() {
+                    var product_color_id = $(this).val();
+                    var thisClick = $(this);
                     thisClick.closest('.productColorTr').remove();
-                    alert(response.message) //is the message that returned in thr repository
-                }
+
+                    $.ajax({
+                        type: "GET",
+                        url: "{{URL::to('product/delete/productColor')}}/" + product_color_id,
+                        success: function(response) {
+                            thisClick.closest('.productColorTr').remove();
+                            alert(response.message) //is the message that returned in thr repository
+                        }
+
+                    });
+                });
+
 
             });
-            });
-
-
-});
-
         </script>
         @endsection
