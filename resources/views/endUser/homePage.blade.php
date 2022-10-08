@@ -53,7 +53,7 @@ E-commerce Website
                 </div>
                 @if($trendyProducts)
                 <div class="col-md-12">
-                <div class="owl-carousel owl-theme trending-product">
+                <div class="owl-carousel owl-theme carousel-products">
                     @foreach($trendyProducts as $product)
                     <div class="item">
                         <div class="product-card">
@@ -87,7 +87,111 @@ E-commerce Website
                 @else
                 <div class="col-md-12">
                     <div class="p-2">
-                        <h4>No Product Available</h4>
+                        <h4>No Trendy Products Available</h4>
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+    <div class="py-5 bg-blue">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>New Arrivals
+                    <a href="{{route('newArrivals.index')}}" class="btn btn-warning float-end">View More</a>
+                    </h4>
+                    <div class="underline mb-4"></div>
+                </div>
+                @if($newArrivals)
+                <div class="col-md-12">
+                <div class="owl-carousel owl-theme carousel-products">
+                    @foreach($newArrivals as $product)
+                    <div class="item">
+                        <div class="product-card">
+                            <div class="product-card-img">
+                                <label class="stock bg-danger">New</label>
+                                @if($product->images->count() > 0)
+                                <a href="{{url('products/'.$product->category->slug . '/'.$product->slug)}}">
+                                    <img src="{{asset('storage/products/'.$product->name. '/'.$product->images[0]->image)}}" alt="{{$product->name}}">
+                                </a>
+                                @endif
+                            </div>
+                            <div class="product-card-body">
+                                <p class="product-brand">{{$product->brand->name}}</p>
+                                <h5 class="product-name">
+                                    <a href="{{url('products/'.$product->category->slug . '/'.$product->slug)}}">
+                                        {{$product->name}}
+                                    </a>
+                                </h5>
+                                <div>
+                                    <span class="selling-price">${{$product->selling_price}}</span>
+                                    <span class="original-price">${{$product->price}}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                    </div>
+
+                </div>
+                @else
+                <div class="col-md-12">
+                    <div class="p-2">
+                        <h4>No New Arrivals Available</h4>
+                    </div>
+                </div>
+                @endif
+            </div>
+        </div>
+    </div>
+    <div class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Featured Products
+                    <a href="{{route('featuredProducts.index')}}" class="btn btn-warning float-end">View More</a>
+                    </h4>
+                    <div class="underline mb-4"></div>
+                </div>
+                @if($featuredProducts)
+                <div class="col-md-12">
+                <div class="owl-carousel owl-theme carousel-products">
+                    @foreach($featuredProducts as $product)
+                    <div class="item">
+                        <div class="product-card">
+                            <div class="product-card-img">
+                                <label class="stock bg-danger">New</label>
+                                @if($product->images->count() > 0)
+                                <a href="{{url('products/'.$product->category->slug . '/'.$product->slug)}}">
+                                    <img src="{{asset('storage/products/'.$product->name. '/'.$product->images[0]->image)}}" alt="{{$product->name}}">
+                                </a>
+                                @endif
+                            </div>
+                            <div class="product-card-body">
+                                <p class="product-brand">{{$product->brand->name}}</p>
+                                <h5 class="product-name">
+                                    <a href="{{url('products/'.$product->category->slug . '/'.$product->slug)}}">
+                                        {{$product->name}}
+                                    </a>
+                                </h5>
+                                <div>
+                                    <span class="selling-price">${{$product->selling_price}}</span>
+                                    <span class="original-price">${{$product->price}}</span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                    </div>
+
+                </div>
+                @else
+                <div class="col-md-12">
+                    <div class="p-2">
+                        <h4>No Featured Products Available</h4>
                     </div>
                 </div>
                 @endif
@@ -97,10 +201,11 @@ E-commerce Website
     @endsection
     @section('script')
     <script>
-        $('.trending-product').owlCarousel({
+        $('.carousel-products').owlCarousel({
             loop: true,
             margin: 10,
-            nav: true,
+            dots: true,
+            nav: false,
             responsive: {
                 0: {
                     items: 1

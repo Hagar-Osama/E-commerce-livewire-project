@@ -11,7 +11,9 @@ use App\Http\Controllers\EndUser\OrderController;
 use App\Http\Controllers\EndUser\WishlistController;
 use App\Http\Controllers\OrderController as ControllersOrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SliderController;
+use App\Http\Controllers\UserController;
 use App\Http\Livewire\Admin\Brand\Index;
 use App\Http\Livewire\Admin\Category\CategoryIndex;
 use Illuminate\Support\Facades\Route;
@@ -133,5 +135,26 @@ Route::group(['middleware' => ['auth']], function () {
 
             });
         });
+
+          ///settings routes
+    Route::group(['prefix' => 'settings', 'as' => 'settings.'], function () {
+        Route::get('/create', [SettingController::class, 'create'])->name('create');
+        Route::post('/store', [SettingController::class, 'store'])->name('store');
+
+    });
+
+    //users Routes
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+
+        Route::controller(UserController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{userId}', 'edit')->name('edit');
+            Route::put('/update', 'update')->name('update');
+            Route::delete('/delete', 'destroy')->name('destroy');
+
+        });
+    });
 
 });

@@ -26,7 +26,9 @@ class HomeRepository implements HomeInterface
     {
         $sliders = $this->getAllSliders();
         $trendyProducts = $this->productModel::where('trendy', 'yes')->latest()->take(15)->get();
-        return view('endUser.homepage', compact('sliders', 'trendyProducts'));
+        $newArrivals = $this->productModel::latest()->take(10)->get();
+        $featuredProducts = $this->productModel::where('featured', 'yes')->take(10)->get();
+        return view('endUser.homepage', compact('sliders', 'trendyProducts', 'newArrivals', 'featuredProducts'));
     }
 
     public function showCategory()

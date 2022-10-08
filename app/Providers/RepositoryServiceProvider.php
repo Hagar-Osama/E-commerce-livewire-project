@@ -11,7 +11,9 @@ use App\Http\Interfaces\EndUser\OrderInterface;
 use App\Http\Interfaces\EndUser\WishlistInterface;
 use App\Http\Interfaces\OrdersInterface;
 use App\Http\Interfaces\ProductInterface;
+use App\Http\Interfaces\SettingsInterface;
 use App\Http\Interfaces\SliderInterface;
+use App\Http\Interfaces\UsersInterface;
 use App\Http\Repositories\AuthRepository;
 use App\Http\Repositories\CategoryRepository;
 use App\Http\Repositories\ColorRepository;
@@ -21,7 +23,9 @@ use App\Http\Repositories\EndUser\OrderRepository;
 use App\Http\Repositories\EndUser\WishlistRepository;
 use App\Http\Repositories\OrdersRepository;
 use App\Http\Repositories\ProductRepository;
+use App\Http\Repositories\SettingsRepository;
 use App\Http\Repositories\SliderRepository;
+use App\Http\Repositories\UsersRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -43,6 +47,10 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(CartInterface::class, CartRepository::class);
         $this->app->bind(OrderInterface::class, OrderRepository::class);
         $this->app->bind(OrdersInterface::class, OrdersRepository::class);
+        $this->app->bind(SettingsInterface::class, SettingsRepository::class);
+        $this->app->bind(UsersInterface::class, UsersRepository::class);
+
+
 
 
 
