@@ -21,6 +21,11 @@ class HomeController extends Controller
         return $this->homeInterface->index();
     }
 
+    public function searchProducts(Request $request)
+    {
+        return $this->homeInterface->searchProducts($request);
+    }
+
     public function showCategory()
     {
         return $this->homeInterface->showCategory();

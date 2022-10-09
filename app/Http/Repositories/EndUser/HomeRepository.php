@@ -31,6 +31,21 @@ class HomeRepository implements HomeInterface
         return view('endUser.homepage', compact('sliders', 'trendyProducts', 'newArrivals', 'featuredProducts'));
     }
 
+    public function searchProducts($request)
+    {
+
+        if($request->search) {
+            $searchProducts = $this->productModel::where('name', 'LIKE', '%'.$request->search. '%')->latest()->paginate(15);
+            return view('endUser.searchProducts', compact('searchProducts'));
+
+        }else {
+            session()->flash('error', 'No Product Found');
+            return redirect()->back();
+
+        }
+    }
+
+
     public function showCategory()
     {
 
