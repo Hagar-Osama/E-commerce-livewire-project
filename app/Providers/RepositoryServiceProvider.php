@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Interfaces\AdminInterface;
 use App\Http\Interfaces\AuthInterface;
 use App\Http\Interfaces\CategoryInterface;
 use App\Http\Interfaces\ColorInterface;
@@ -14,6 +15,7 @@ use App\Http\Interfaces\ProductInterface;
 use App\Http\Interfaces\SettingsInterface;
 use App\Http\Interfaces\SliderInterface;
 use App\Http\Interfaces\UsersInterface;
+use App\Http\Repositories\AdminRepository;
 use App\Http\Repositories\AuthRepository;
 use App\Http\Repositories\CategoryRepository;
 use App\Http\Repositories\ColorRepository;
@@ -49,6 +51,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(OrdersInterface::class, OrdersRepository::class);
         $this->app->bind(SettingsInterface::class, SettingsRepository::class);
         $this->app->bind(UsersInterface::class, UsersRepository::class);
+        $this->app->bind(AdminInterface::class, AdminRepository::class);
 
 
 
