@@ -9,6 +9,7 @@ use App\Http\Interfaces\ColorInterface;
 use App\Http\Interfaces\EndUser\CartInterface;
 use App\Http\Interfaces\EndUser\HomeInterface;
 use App\Http\Interfaces\EndUser\OrderInterface;
+use App\Http\Interfaces\EndUser\ProfileInterface;
 use App\Http\Interfaces\EndUser\WishlistInterface;
 use App\Http\Interfaces\OrdersInterface;
 use App\Http\Interfaces\ProductInterface;
@@ -22,6 +23,7 @@ use App\Http\Repositories\ColorRepository;
 use App\Http\Repositories\EndUser\CartRepository;
 use App\Http\Repositories\EndUser\HomeRepository;
 use App\Http\Repositories\EndUser\OrderRepository;
+use App\Http\Repositories\EndUser\ProfileRepository;
 use App\Http\Repositories\EndUser\WishlistRepository;
 use App\Http\Repositories\OrdersRepository;
 use App\Http\Repositories\ProductRepository;
@@ -52,6 +54,8 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(SettingsInterface::class, SettingsRepository::class);
         $this->app->bind(UsersInterface::class, UsersRepository::class);
         $this->app->bind(AdminInterface::class, AdminRepository::class);
+        $this->app->bind(ProfileInterface::class, ProfileRepository::class);
+
 
 
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\EndUser\CartController;
 use App\Http\Controllers\EndUser\CheckoutController;
 use App\Http\Controllers\EndUser\HomeController;
 use App\Http\Controllers\EndUser\OrderController;
+use App\Http\Controllers\EndUser\ProfileController;
 use App\Http\Controllers\EndUser\WishlistController;
 use App\Http\Controllers\OrderController as ControllersOrderController;
 use App\Http\Controllers\ProductController;
@@ -45,6 +46,9 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.in
 Route::get('/thankyou', [HomeController::class, 'thankYou']);
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show');
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+Route::post('/profile/store', [ProfileController::class, 'store'])->name('profile.store');
+
 
 
 
