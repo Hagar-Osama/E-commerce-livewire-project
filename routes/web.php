@@ -48,6 +48,10 @@ Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 Route::get('/orders/{orderId}', [OrderController::class, 'show'])->name('orders.show');
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 Route::post('/profile/store', [ProfileController::class, 'store'])->name('profile.store');
+Route::get('/changePassword/index', [ProfileController::class, 'changePasswordIndex'])->name('ChangePassword.index');
+Route::post('/changePassword', [ProfileController::class, 'changePassword'])->name('password.change');
+
+
 
 
 

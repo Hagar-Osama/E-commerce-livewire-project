@@ -7,6 +7,11 @@ interface ProfileInterface {
 
     public function store($request);
 
+    public function changePasswordIndex();
+
+    public function changePassword($request);
+
+
 
 
 

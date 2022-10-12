@@ -4,6 +4,7 @@ namespace App\Http\Controllers\EndUser;
 use App\Http\Controllers\Controller;
 use App\Http\Interfaces\EndUser\ProfileInterface;
 use App\Http\Requests\AddUserProfileRequest;
+use App\Http\Requests\ChangePasswordRequest;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -26,5 +27,20 @@ class ProfileController extends Controller
         return $this->profileInterface->store($request);
 
     }
+
+    public function changePasswordIndex()
+    {
+        return $this->profileInterface->changePasswordIndex();
+
+    }
+
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        return $this->profileInterface->changePassword($request);
+
+
+    }
+
 
 }

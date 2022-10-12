@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileRepository implements ProfileInterface
 {
@@ -47,5 +48,33 @@ class ProfileRepository implements ProfileInterface
             DB::rollBack();
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
+    }
+
+    public function changePasswordIndex()
+    {
+        return view('endUser.users.changePassword');
+    }
+
+    public function changePassword($request)
+    {
+        $currentPasswordCheck = Hash::check($request->current_password, auth()->user()->password);
+        if($currentPasswordCheck)
+        {
+            $user = $this->userModel::findOrFail(auth()->user()->id);
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
+            session()->flash('success', 'User Password Updated Successfully');
+            return redirect()->back();
+
+
+        }else{
+            session()->flash('error', 'User Current Password Doesnt Match With The Old One');
+            return redirect()->back();
+        }
+
+
+
+
     }
 }

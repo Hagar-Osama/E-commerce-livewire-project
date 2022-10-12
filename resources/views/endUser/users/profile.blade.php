@@ -7,13 +7,17 @@ User Profile
     <div class="container">
         <div class="row">
             <div class="col-md-10">
-                <h4>User Profile</h4>
-                <div class="underline mb-4"></div>
+                <h4>User Profile
+                <a href="{{route('ChangePassword.index')}}" class="btn btn-warning float-end">Change Password</a>
+                </h4>
+                <div class="underline mb-4">
+                </div>
             </div>
             <div class="col-md-10">
                 <div class="card shadow">
                     <div class="card-header bg-primary">
-                        <h4 class="mb-0 text white">User Details</h4>
+                        <h4 class="mb-0 text white">User Details
+                        </h4>
                     </div>
                     <div class="card-body">
                         <form class="forms-sample" method="post" action="{{route('profile.store')}}">
