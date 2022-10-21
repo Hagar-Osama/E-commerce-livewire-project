@@ -13,6 +13,9 @@ interface OrdersInterface {
 
     public function downloadInvoice($orderId);
 
+    public function sendInvoiceMail($orderId);
+
+
 
 
 

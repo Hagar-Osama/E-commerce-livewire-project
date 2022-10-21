@@ -46,5 +46,11 @@ class OrderController extends Controller
 
     }
 
+    public function sendInvoiceMail($orderId)
+    {
+        return $this->ordersInterface->sendInvoiceMail($orderId);
+
+    }
+
 
 }

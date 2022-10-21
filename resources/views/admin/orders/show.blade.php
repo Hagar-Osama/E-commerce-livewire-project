@@ -10,11 +10,21 @@ Order Details
                 @if(session('message'))
                 <div class="alert alert-success">{{session('message')}}</div>
                 @endif
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <div class="card-body">
                     <h4 class="text-primary"><i class="fa fa-shopping-cart text-dark"></i> My Order Details
                         <a href="{{route('order.index')}}" class="btn btn-danger btn-sm float-end mx-1">Back</a>
                         <a href="{{route('order.showInvoice', $order->id)}}" target="_blank" class="btn btn-primary btn-sm float-end mx-1">View Invoice</a>
                         <a href="{{route('order.downloadInvoice', $order->id)}}" class="btn btn-warning btn-sm float-end mx-1">Download Invoice</a>
+                        <a href="{{route('order.invoiceMail', $order->id)}}" class="btn btn-info btn-sm float-end mx-1">Send Invoice Via Mail</a>
 
                     </h4>
                     <hr>

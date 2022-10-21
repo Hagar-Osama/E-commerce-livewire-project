@@ -138,6 +138,8 @@ Route::group(['middleware' => ['auth']], function () {
                 Route::put('/{orderId}', 'updateStatus')->name('status.update');
                 Route::get('/{orderId}/view', 'showInvoice')->name('showInvoice');
                 Route::get('/{orderId}/download', 'downloadInvoice')->name('downloadInvoice');
+                Route::get('/{orderId}/mail', 'sendInvoiceMail')->name('invoiceMail');
+
 
 
 

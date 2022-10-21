@@ -3,11 +3,13 @@
 namespace App\Http\Repositories;
 
 use App\Http\Interfaces\OrdersInterface;
+use App\Mail\InvoiceOrderMail;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
-
+use Exception;
+use Illuminate\Support\Facades\Mail;
 
 class OrdersRepository implements OrdersInterface
 {
@@ -63,4 +65,22 @@ class OrdersRepository implements OrdersInterface
         $todayDate = Carbon::now()->format('d-m-Y');
         return $pdf->download('invoice '.'#'.$order->id.' '.$todayDate.'.pdf');
     }
+
+    public function sendInvoiceMail($orderId)
+    {
+        try {
+            $order = $this->orderModel::findOrFail($orderId);
+            Mail::to($order->email)->send(new InvoiceOrderMail($order));
+            session()->flash('message', 'Invoice Sent Successfully To '. $order->email);
+            return redirect()->back();
+
+        }catch(Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+
+        }
+
+
+
+    }
+
 }
