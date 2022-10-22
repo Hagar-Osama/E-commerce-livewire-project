@@ -13,7 +13,12 @@ class Category extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class)->latest();
+    }
+
+    public function relatedProducts()
+    {
+        return $this->hasMany(Product::class, 'category_id')->orderBy('id', 'desc');
     }
 
     public function brands()
