@@ -2,11 +2,13 @@
 
 namespace App\Http\Livewire\EndUser;
 
+use App\Mail\PlaceOrderMail;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Illuminate\Support\Str;
 
@@ -24,6 +26,13 @@ class CheckoutShow extends Component
         $placeOrder =  $this->placeOrder();
         if ($placeOrder) {
             Cart::where('user_id', auth()->user()->id)->delete();
+            try{
+                $order = Order::findOrFail($placeOrder->id);
+                Mail::to($order->email)->send(new PlaceOrderMail($order));
+
+            }catch(Exception $e){
+
+            }
             $this->emit('cartAddedOrUpdated');
             session()->flash('message', 'Order Placed Successfully');
             $this->dispatchBrowserEvent('message', [
@@ -106,6 +115,13 @@ class CheckoutShow extends Component
         $placeOrder =  $this->placeOrder();
         if ($placeOrder) {
             Cart::where('user_id', auth()->user()->id)->delete();
+            try{
+                $order = Order::findOrFail($placeOrder->id);
+                Mail::to($order->email)->send(new PlaceOrderMail($order));
+
+            }catch(Exception $e){
+
+            }
             $this->emit('cartAddedOrUpdated');
             session()->flash('message', 'Order Placed Successfully');
             $this->dispatchBrowserEvent('message', [
@@ -128,6 +144,10 @@ class CheckoutShow extends Component
     {
         $this->fullname = auth()->user()->name;
         $this->email = auth()->user()->email;
+        $this->pincode = auth()->user()->profile->zip_code;
+        $this->address = auth()->user()->profile->address;
+        $this->phone = auth()->user()->profile->phone;
+
         $this->productTotalPrice = $this->calculatingCartProducts();
         return view('livewire.end-user.checkout-show', ['productTotalPrice' => $this->productTotalPrice]);
     }
