@@ -35,17 +35,20 @@
                             @endif
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
                                 <i class="fa fa-user"></i> @auth
                                 {{auth()->user()->name}}
                                 @endauth
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#"><i class="fa fa-user"></i> Profile</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa fa-list"></i> My Orders</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa fa-heart"></i> My Wishlist</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa fa-shopping-cart"></i> My Cart</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                <li><a class="dropdown-item" href="{{route('profile.index')}}"><i class="fa fa-user"></i> Profile</a></li>
+                                <li><a class="dropdown-item" href="{{route('orders.index')}}"><i class="fa fa-list"></i> My Orders</a></li>
+                                <li><a class="dropdown-item" href="{{route('wishlist.index')}}"><i class="fa fa-heart"></i> My Wishlist</a></li>
+                                <li><a class="dropdown-item" href="{{route('cart.index')}}"><i class="fa fa-shopping-cart"></i> My Cart</a></li>
+                                <form method="post" action="{{route('logout')}}">
+                                    @csrf
+                                <li><button class="dropdown-item"><i class="fa fa-sign-out"></i> Logout</button></li>
+                                </form>
                             </ul>
                         </li>
                     </ul>
