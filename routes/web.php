@@ -62,6 +62,9 @@ Route::post('/changePassword', [ProfileController::class, 'changePassword'])->na
 //Login routes
 Route::get('/loginPage', [AuthController::class, 'loginPage'])->name('loginPage');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/google', [AuthController::class, 'redirectToGoogleLoginPage'])->name('google');
+Route::get('auth/google/call-back', [AuthController::class, 'loginViaGoogle'])->name('googleLogin');
+
 
 ///Registeration routes
 Route::get('/registerPage', [AuthController::class, 'registerPage'])->name('registerPage');

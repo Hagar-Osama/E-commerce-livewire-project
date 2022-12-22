@@ -13,4 +13,10 @@ interface AuthInterface {
 
     public function logout();
 
+    public function redirectToGoogleLoginPage();
+
+    public function loginViaGoogle();
+
+
+
 }

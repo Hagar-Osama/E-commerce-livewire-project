@@ -80,9 +80,9 @@
                   <button type="button" class="btn btn-facebook auth-form-btn flex-grow me-1">
                     <i class="mdi mdi-facebook me-2"></i>Facebook
                   </button>
-                  <button type="button" class="btn btn-google auth-form-btn flex-grow ms-1">
+                  <a href="{{route('google')}}" class="btn btn-google auth-form-btn flex-grow ms-1">
                     <i class="mdi mdi-google me-2"></i>Google
-                  </button>
+                  </a>
                 </div>
                 <div class="text-center mt-4 font-weight-light">
                   Don't have an account? <a href="{{route('registerPage')}}" class="text-primary">Create</a>

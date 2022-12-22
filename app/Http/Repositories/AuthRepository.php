@@ -1,19 +1,22 @@
 <?php
+
 namespace App\Http\Repositories;
 
 use App\Http\Interfaces\AuthInterface;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\Facades\Socialite;
 
-class AuthRepository implements AuthInterface {
+class AuthRepository implements AuthInterface
+{
 
     private $userModel;
     public function __construct(User $user)
     {
         $this->userModel = $user;
-
     }
     public function registerPage()
     {
@@ -41,7 +44,7 @@ class AuthRepository implements AuthInterface {
     {
 
         $adminData = $request->only('name', 'password');
-        if(auth()->attempt($adminData)) {
+        if (auth()->attempt($adminData)) {
             $request->session()->regenerate();
             return redirect()->route('dashboard');
         }
@@ -57,7 +60,30 @@ class AuthRepository implements AuthInterface {
         Auth::logout();
         return redirect('loginPage');
     }
+
+    public function redirectToGoogleLoginPage()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function loginViaGoogle()
+    {
+        try {
+            ///first we need to get the google user data
+            $googleUser =  Socialite::driver('google')->user();
+            //second we need to check if the google id in the user table is same as the id in google credentials
+        //    $user = $this->userModel::where('google_id', $googleUser->getId())->first();
+            $googleLogin = $this->userModel::firstOrCreate([
+                'name' => $googleUser->getName(),
+                'email' => $googleUser->getEmail(),
+                'google_id' => $googleUser->getId()
+            ]);
+            Auth::login($googleLogin);
+            return redirect()->intended('dashboard');
+
+        } catch (Exception $e) {
+            dd('something wrong');
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
 }
-
-
-

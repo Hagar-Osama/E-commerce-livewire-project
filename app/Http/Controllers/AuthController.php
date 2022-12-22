@@ -43,4 +43,18 @@ class AuthController extends Controller
         return $this->authInterface->logout();
     }
 
+    public function redirectToGoogleLoginPage()
+    {
+        return $this->authInterface->redirectToGoogleLoginPage();
+
+    }
+
+    public function loginViaGoogle()
+    {
+        return $this->authInterface->loginViaGoogle();
+
+    }
+
+
+
 }
