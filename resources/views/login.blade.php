@@ -83,6 +83,9 @@
                   <a href="{{route('google')}}" class="btn btn-google auth-form-btn flex-grow ms-1">
                     <i class="mdi mdi-google me-2"></i>Google
                   </a>
+                  <a href="{{route('github')}}" class="btn btn-github auth-form-btn flex-grow ms-1">
+                    <i class="mdi mdi-github me-2"></i>GitHub
+                  </a>
                 </div>
                 <div class="text-center mt-4 font-weight-light">
                   Don't have an account? <a href="{{route('registerPage')}}" class="text-primary">Create</a>

@@ -55,6 +55,18 @@ class AuthController extends Controller
 
     }
 
+    public function redirectToGithubLoginPage()
+    {
+        return $this->authInterface->redirectToGithubLoginPage();
+
+    }
+
+    public function loginViaGithub()
+    {
+        return $this->authInterface->loginViaGithub();
+
+    }
+
 
 
 }

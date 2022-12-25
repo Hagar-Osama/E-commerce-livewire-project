@@ -17,6 +17,10 @@ interface AuthInterface {
 
     public function loginViaGoogle();
 
+    public function redirectToGithubLoginPage();
+
+    public function loginViaGithub();
+
 
 
 }

@@ -72,17 +72,42 @@ class AuthRepository implements AuthInterface
             ///first we need to get the google user data
             $googleUser =  Socialite::driver('google')->user();
             //second we need to check if the google id in the user table is same as the id in google credentials
-        //    $user = $this->userModel::where('google_id', $googleUser->getId())->first();
+            //    $user = $this->userModel::where('google_id', $googleUser->getId())->first();
             $googleLogin = $this->userModel::firstOrCreate([
                 'name' => $googleUser->getName(),
                 'email' => $googleUser->getEmail(),
-                'google_id' => $googleUser->getId()
+                'google_id' => $googleUser->getId(),
+                'password' => Hash::make($googleUser->password)
             ]);
             Auth::login($googleLogin);
             return redirect()->intended('dashboard');
-
         } catch (Exception $e) {
-            dd('something wrong');
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function redirectToGithubLoginPage()
+    {
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function loginViaGithub()
+    {
+
+        try {
+            ///first we need to get the github user data
+            $githubUser =  Socialite::driver('github')->user();
+            //second we need to check if the github id in the user table is same as the id in github credentials
+
+            $githubLogin = $this->userModel::firstOrCreate([
+                'github_id' => $githubUser->id,
+                'name' => $githubUser->name,
+                'email' => $githubUser->email,
+                'password' => Hash::make($githubUser->password)
+            ]);
+            Auth::login($githubLogin);
+       return redirect()->intended('dashboard');
+        } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }

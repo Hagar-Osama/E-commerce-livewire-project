@@ -64,6 +64,8 @@ Route::get('/loginPage', [AuthController::class, 'loginPage'])->name('loginPage'
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/google', [AuthController::class, 'redirectToGoogleLoginPage'])->name('google');
 Route::get('auth/google/call-back', [AuthController::class, 'loginViaGoogle'])->name('googleLogin');
+Route::get('/github', [AuthController::class, 'redirectToGithubLoginPage'])->name('github');
+Route::get('auth/github/call-back', [AuthController::class, 'loginViaGithub'])->name('githubLogin');
 
 
 ///Registeration routes
