@@ -67,6 +67,19 @@ class AuthController extends Controller
 
     }
 
+    public function redirectToFacebookLoginPage()
+    {
+        return $this->authInterface->redirectToFacebookLoginPage();
+
+    }
+
+    public function loginViaFacebook()
+    {
+        return $this->authInterface->loginViaFacebook();
+
+    }
+
+
 
 
 }

@@ -21,6 +21,10 @@ interface AuthInterface {
 
     public function loginViaGithub();
 
+    public function redirectToFacebookLoginPage();
+
+    public function loginViaFacebook();
+
 
 
 }

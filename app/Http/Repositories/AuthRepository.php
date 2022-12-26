@@ -71,16 +71,20 @@ class AuthRepository implements AuthInterface
         try {
             ///first we need to get the google user data
             $googleUser =  Socialite::driver('google')->user();
+            // dd($googleUser);
             //second we need to check if the google id in the user table is same as the id in google credentials
             //    $user = $this->userModel::where('google_id', $googleUser->getId())->first();
-            $googleLogin = $this->userModel::firstOrCreate([
-                'name' => $googleUser->getName(),
+            $googleLogin = $this->userModel::updateOrCreate([
                 'email' => $googleUser->getEmail(),
+
+            ], [
+                'name' => $googleUser->getName(),
                 'google_id' => $googleUser->getId(),
-                'password' => Hash::make($googleUser->password)
+                'email' => $googleUser->getEmail(),
+
             ]);
             Auth::login($googleLogin);
-            return redirect()->intended('dashboard');
+            return redirect()->route('dashboard');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
@@ -99,14 +103,46 @@ class AuthRepository implements AuthInterface
             $githubUser =  Socialite::driver('github')->user();
             //second we need to check if the github id in the user table is same as the id in github credentials
 
-            $githubLogin = $this->userModel::firstOrCreate([
-                'github_id' => $githubUser->id,
+            $githubLogin = $this->userModel::updateOrCreate([
+                'email' => $githubUser->email,
+            ], [
                 'name' => $githubUser->name,
                 'email' => $githubUser->email,
-                'password' => Hash::make($githubUser->password)
+                'github_id' => $githubUser->id,
+
+
             ]);
             Auth::login($githubLogin);
-       return redirect()->intended('dashboard');
+            return redirect()->route('dashboard');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+
+    public function redirectToFacebookLoginPage()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function loginViaFacebook()
+    {
+
+        try {
+            ///first we need to get the facebook user data
+            $facebookUser =  Socialite::driver('facebook')->user();
+            //second we need to check if the facebook id in the user table is same as the id in facebook credentials
+
+            $facebookLogin = $this->userModel::updateOrCreate([
+                'email' => $facebookUser->email,
+
+            ], [
+                'name' => $facebookUser->name,
+                'facebook_id' => $facebookUser->id,
+                'email' => $facebookUser->email,
+            ]);
+            Auth::login($facebookLogin);
+            return redirect()->route('dashboard');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }

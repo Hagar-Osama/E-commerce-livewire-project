@@ -77,14 +77,14 @@
                   <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"type="submit">LOGIN</button>
                 </div>
                 <div class="mb-2 d-flex">
-                  <button type="button" class="btn btn-facebook auth-form-btn flex-grow me-1">
+                  <a href="{{route('facebookPage')}}" class="btn btn-facebook auth-form-btn flex-grow me-1">
                     <i class="mdi mdi-facebook me-2"></i>Facebook
-                  </button>
+                  </a>
                   <a href="{{route('google')}}" class="btn btn-google auth-form-btn flex-grow ms-1">
                     <i class="mdi mdi-google me-2"></i>Google
                   </a>
                   <a href="{{route('github')}}" class="btn btn-github auth-form-btn flex-grow ms-1">
-                    <i class="mdi mdi-github me-2"></i>GitHub
+                    <i class="mdi mdi-git me-2"></i>GitHub
                   </a>
                 </div>
                 <div class="text-center mt-4 font-weight-light">
